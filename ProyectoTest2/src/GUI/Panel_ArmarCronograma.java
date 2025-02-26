@@ -65,6 +65,10 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         btnAgregarEmpleCron = new javax.swing.JButton();
         lblCodCronograma = new javax.swing.JLabel();
         txtFieldCronogramaIdCrea = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
         panelCrearCronAddEmple = new javax.swing.JPanel();
         lblCodEmplCronAdddEmpl = new javax.swing.JLabel();
         lblNamEmplCronAdddEmpl = new javax.swing.JLabel();
@@ -83,6 +87,8 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         jButton4 = new javax.swing.JButton();
         jTextField3 = new javax.swing.JTextField();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        panelUpdateCrono = new javax.swing.JPanel();
+        panelDeleteCrono = new javax.swing.JPanel();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -240,31 +246,31 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
 
         panelCentralArmarCrono.add(panelSupCentArmarCron, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 840, 110));
 
-        panelCrearCrono.setBackground(new java.awt.Color(255, 204, 204));
+        panelCrearCrono.setBackground(new java.awt.Color(255, 118, 118));
         panelCrearCrono.setPreferredSize(new java.awt.Dimension(840, 560));
         panelCrearCrono.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblCodOrden.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblCodOrden.setText("N° Orden");
-        panelCrearCrono.add(lblCodOrden, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 20, -1, -1));
+        panelCrearCrono.add(lblCodOrden, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 20, -1, -1));
 
         lblNameClienteCronCrea.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblNameClienteCronCrea.setText("Nombre Cliente");
-        panelCrearCrono.add(lblNameClienteCronCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, -1, -1));
+        panelCrearCrono.add(lblNameClienteCronCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 80, -1, -1));
 
         lblNameProdcCronCrea.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblNameProdcCronCrea.setText("Nombre Producto");
-        panelCrearCrono.add(lblNameProdcCronCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 130, -1));
+        panelCrearCrono.add(lblNameProdcCronCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 130, 130, -1));
 
         lblFechaInicioCronCrear.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblFechaInicioCronCrear.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblFechaInicioCronCrear.setText("Fecha Inicio");
-        panelCrearCrono.add(lblFechaInicioCronCrear, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 170, -1, -1));
+        panelCrearCrono.add(lblFechaInicioCronCrear, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 180, -1, -1));
 
         lblFechaFinCronCrear.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblFechaFinCronCrear.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblFechaFinCronCrear.setText("Fecha Final");
-        panelCrearCrono.add(lblFechaFinCronCrear, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 210, 80, -1));
+        panelCrearCrono.add(lblFechaFinCronCrear, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 230, 80, -1));
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -282,19 +288,19 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         panelCrearCrono.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, 820, 250));
 
         txtFieldNumOrdenCrea.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        panelCrearCrono.add(txtFieldNumOrdenCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 10, 130, 50));
+        panelCrearCrono.add(txtFieldNumOrdenCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 50, 130, 50));
 
         txtFieldNomClientCrea.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        panelCrearCrono.add(txtFieldNomClientCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 90, 130, -1));
+        panelCrearCrono.add(txtFieldNomClientCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 80, 200, -1));
 
         txtFieldNomProdcCrea.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        panelCrearCrono.add(txtFieldNomProdcCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, 130, -1));
+        panelCrearCrono.add(txtFieldNomProdcCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 130, 200, -1));
 
         txtFieldFICrea.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        panelCrearCrono.add(txtFieldFICrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 170, 130, -1));
+        panelCrearCrono.add(txtFieldFICrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 180, 200, -1));
 
         txtFieldFFCrea.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        panelCrearCrono.add(txtFieldFFCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 210, 130, -1));
+        panelCrearCrono.add(txtFieldFFCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 230, 200, -1));
 
         btnGuardarCrear.setText("Guardar");
         btnGuardarCrear.addActionListener(new java.awt.event.ActionListener() {
@@ -302,7 +308,7 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
                 btnGuardarCrearActionPerformed(evt);
             }
         });
-        panelCrearCrono.add(btnGuardarCrear, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 200, 180, 40));
+        panelCrearCrono.add(btnGuardarCrear, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 220, 120, 40));
 
         btnAgregarEmpleCron.setText("Agregar");
         btnAgregarEmpleCron.addActionListener(new java.awt.event.ActionListener() {
@@ -310,12 +316,28 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
                 btnAgregarEmpleCronActionPerformed(evt);
             }
         });
-        panelCrearCrono.add(btnAgregarEmpleCron, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 130, 180, 40));
+        panelCrearCrono.add(btnAgregarEmpleCron, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 160, 120, 40));
 
         lblCodCronograma.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblCodCronograma.setText("N° Cronograma");
         panelCrearCrono.add(lblCodCronograma, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
-        panelCrearCrono.add(txtFieldCronogramaIdCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 10, 130, 50));
+        panelCrearCrono.add(txtFieldCronogramaIdCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 130, 50));
+
+        jLabel7.setBackground(new java.awt.Color(255, 64, 64));
+        jLabel7.setOpaque(true);
+        panelCrearCrono.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 0, 170, 560));
+
+        jLabel11.setBackground(new java.awt.Color(255, 64, 64));
+        jLabel11.setOpaque(true);
+        panelCrearCrono.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 0, 200, 40));
+
+        jLabel12.setBackground(new java.awt.Color(255, 64, 64));
+        jLabel12.setOpaque(true);
+        panelCrearCrono.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 170, 560));
+
+        jLabel14.setBackground(new java.awt.Color(255, 64, 64));
+        jLabel14.setOpaque(true);
+        panelCrearCrono.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 0, 200, 40));
 
         panelCrearCronAddEmple.setBackground(new java.awt.Color(255, 204, 153));
         panelCrearCronAddEmple.setPreferredSize(new java.awt.Dimension(840, 560));
@@ -403,6 +425,22 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         panelCrearCronAddEmple.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 140, 180, 30));
         panelCrearCronAddEmple.add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 380, 180, 30));
 
+        panelUpdateCrono.setBackground(new java.awt.Color(247, 191, 216));
+        panelUpdateCrono.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        panelDeleteCrono.setPreferredSize(new java.awt.Dimension(840, 560));
+
+        javax.swing.GroupLayout panelDeleteCronoLayout = new javax.swing.GroupLayout(panelDeleteCrono);
+        panelDeleteCrono.setLayout(panelDeleteCronoLayout);
+        panelDeleteCronoLayout.setHorizontalGroup(
+            panelDeleteCronoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 840, Short.MAX_VALUE)
+        );
+        panelDeleteCronoLayout.setVerticalGroup(
+            panelDeleteCronoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 560, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout panelContenedorArmarCronLayout = new javax.swing.GroupLayout(panelContenedorArmarCron);
         panelContenedorArmarCron.setLayout(panelContenedorArmarCronLayout);
         panelContenedorArmarCronLayout.setHorizontalGroup(
@@ -423,6 +461,16 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
                     .addGap(0, 0, Short.MAX_VALUE)
                     .addComponent(panelCrearCronAddEmple, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(panelContenedorArmarCronLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelContenedorArmarCronLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(panelUpdateCrono, javax.swing.GroupLayout.PREFERRED_SIZE, 840, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(panelContenedorArmarCronLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelContenedorArmarCronLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(panelDeleteCrono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         panelContenedorArmarCronLayout.setVerticalGroup(
             panelContenedorArmarCronLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -442,19 +490,20 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
                     .addGap(0, 0, Short.MAX_VALUE)
                     .addComponent(panelCrearCronAddEmple, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(panelContenedorArmarCronLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelContenedorArmarCronLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(panelUpdateCrono, javax.swing.GroupLayout.PREFERRED_SIZE, 560, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(panelContenedorArmarCronLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelContenedorArmarCronLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(panelDeleteCrono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         add(panelContenedorArmarCron, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnGuardarCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarCrearActionPerformed
-        
-    }//GEN-LAST:event_btnGuardarCrearActionPerformed
-
-    private void btnAgregarEmpleCronActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarEmpleCronActionPerformed
-        panelCrearCrono.setVisible(false);
-        panelCrearCronAddEmple.setVisible(true);
-    }//GEN-LAST:event_btnAgregarEmpleCronActionPerformed
 
     private void panelContainerCrearCronMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelContainerCrearCronMouseEntered
         panelContainerCrearCron.setBackground(new Color(204,204,255));
@@ -560,6 +609,15 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void btnGuardarCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarCrearActionPerformed
+
+    }//GEN-LAST:event_btnGuardarCrearActionPerformed
+
+    private void btnAgregarEmpleCronActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarEmpleCronActionPerformed
+        panelCrearCrono.setVisible(false);
+        panelCrearCronAddEmple.setVisible(true);
+    }//GEN-LAST:event_btnAgregarEmpleCronActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField IDText;
@@ -576,11 +634,15 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
@@ -608,8 +670,10 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
     private javax.swing.JPanel panelContenedorArmarCron;
     private javax.swing.JPanel panelCrearCronAddEmple;
     private javax.swing.JPanel panelCrearCrono;
+    private javax.swing.JPanel panelDeleteCrono;
     private javax.swing.JPanel panelOpcionesArmarCron;
     private javax.swing.JPanel panelSupCentArmarCron;
+    private javax.swing.JPanel panelUpdateCrono;
     private javax.swing.JTextField txtFieldCronogramaIdCrea;
     private javax.swing.JTextField txtFieldFFCrea;
     private javax.swing.JTextField txtFieldFICrea;
