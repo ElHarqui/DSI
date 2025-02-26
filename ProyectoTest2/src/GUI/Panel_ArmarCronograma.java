@@ -66,9 +66,7 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         lblCodCronograma = new javax.swing.JLabel();
         txtFieldCronogramaIdCrea = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
         panelCrearCronAddEmple = new javax.swing.JPanel();
         lblCodEmplCronAdddEmpl = new javax.swing.JLabel();
         lblNamEmplCronAdddEmpl = new javax.swing.JLabel();
@@ -87,8 +85,8 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         jButton4 = new javax.swing.JButton();
         jTextField3 = new javax.swing.JTextField();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        panelUpdateCrono = new javax.swing.JPanel();
         panelDeleteCrono = new javax.swing.JPanel();
+        panelUpdateCrono = new javax.swing.JPanel();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -285,7 +283,7 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         ));
         jScrollPane2.setViewportView(jTable2);
 
-        panelCrearCrono.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, 820, 250));
+        panelCrearCrono.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 300, 790, 240));
 
         txtFieldNumOrdenCrea.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         panelCrearCrono.add(txtFieldNumOrdenCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 50, 130, 50));
@@ -325,19 +323,11 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
 
         jLabel7.setBackground(new java.awt.Color(255, 64, 64));
         jLabel7.setOpaque(true);
-        panelCrearCrono.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 0, 170, 560));
-
-        jLabel11.setBackground(new java.awt.Color(255, 64, 64));
-        jLabel11.setOpaque(true);
-        panelCrearCrono.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 0, 200, 40));
+        panelCrearCrono.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 0, 170, 120));
 
         jLabel12.setBackground(new java.awt.Color(255, 64, 64));
         jLabel12.setOpaque(true);
-        panelCrearCrono.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 170, 560));
-
-        jLabel14.setBackground(new java.awt.Color(255, 64, 64));
-        jLabel14.setOpaque(true);
-        panelCrearCrono.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 0, 200, 40));
+        panelCrearCrono.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 170, 120));
 
         panelCrearCronAddEmple.setBackground(new java.awt.Color(255, 204, 153));
         panelCrearCronAddEmple.setPreferredSize(new java.awt.Dimension(840, 560));
@@ -425,9 +415,6 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         panelCrearCronAddEmple.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 140, 180, 30));
         panelCrearCronAddEmple.add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 380, 180, 30));
 
-        panelUpdateCrono.setBackground(new java.awt.Color(247, 191, 216));
-        panelUpdateCrono.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
         panelDeleteCrono.setPreferredSize(new java.awt.Dimension(840, 560));
 
         javax.swing.GroupLayout panelDeleteCronoLayout = new javax.swing.GroupLayout(panelDeleteCrono);
@@ -438,6 +425,19 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         );
         panelDeleteCronoLayout.setVerticalGroup(
             panelDeleteCronoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 560, Short.MAX_VALUE)
+        );
+
+        panelUpdateCrono.setBackground(new java.awt.Color(247, 191, 216));
+
+        javax.swing.GroupLayout panelUpdateCronoLayout = new javax.swing.GroupLayout(panelUpdateCrono);
+        panelUpdateCrono.setLayout(panelUpdateCronoLayout);
+        panelUpdateCronoLayout.setHorizontalGroup(
+            panelUpdateCronoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 840, Short.MAX_VALUE)
+        );
+        panelUpdateCronoLayout.setVerticalGroup(
+            panelUpdateCronoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 560, Short.MAX_VALUE)
         );
 
@@ -464,12 +464,12 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
             .addGroup(panelContenedorArmarCronLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(panelContenedorArmarCronLayout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(panelUpdateCrono, javax.swing.GroupLayout.PREFERRED_SIZE, 840, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panelDeleteCrono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
             .addGroup(panelContenedorArmarCronLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(panelContenedorArmarCronLayout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(panelDeleteCrono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panelUpdateCrono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
         panelContenedorArmarCronLayout.setVerticalGroup(
@@ -493,12 +493,12 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
             .addGroup(panelContenedorArmarCronLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(panelContenedorArmarCronLayout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(panelUpdateCrono, javax.swing.GroupLayout.PREFERRED_SIZE, 560, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panelDeleteCrono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
             .addGroup(panelContenedorArmarCronLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(panelContenedorArmarCronLayout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(panelDeleteCrono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panelUpdateCrono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
@@ -634,9 +634,7 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
