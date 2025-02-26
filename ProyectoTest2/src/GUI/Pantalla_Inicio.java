@@ -34,7 +34,6 @@ public class Pantalla_Inicio extends javax.swing.JFrame {
         lbllogoInicio = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(0, 0));
         setPreferredSize(new java.awt.Dimension(800, 580));
         setSize(new java.awt.Dimension(786, 541));
 
