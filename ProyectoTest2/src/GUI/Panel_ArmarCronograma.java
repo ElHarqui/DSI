@@ -203,7 +203,6 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
 
         jButton1.setBackground(new java.awt.Color(102, 102, 255));
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/IMG/search.png"))); // NOI18N
-        jButton1.setActionCommand("");
         jButton1.setBorder(null);
         jButton1.setBorderPainted(false);
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
