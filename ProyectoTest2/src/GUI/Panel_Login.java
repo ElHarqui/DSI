@@ -136,9 +136,7 @@ public class Panel_Login extends javax.swing.JFrame {
                 // TODO add your handling code here:
         String usuario = jTextField1.getText();
         String contraseña = new String(jPasswordField1.getPassword());
-        UsuarioManager.verificarUsuario(usuario, contraseña);
-                
-                
+        UsuarioManager.verificarUsuario(usuario, contraseña);          
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
