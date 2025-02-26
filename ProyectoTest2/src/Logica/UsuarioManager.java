@@ -5,7 +5,7 @@ import java.sql.*;
 import javax.swing.JOptionPane;
 
 public class UsuarioManager {
-    private static final String URL = "jdbc:mysql://localhost:3306/tu_base_de_datos";
+    private static final String URL = "jdbc:mysql://localhost:3306/dsi";
     private static final String USER = "usuario1";
     private static final String PASSWORD = "1234";
 
