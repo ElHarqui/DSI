@@ -45,7 +45,7 @@ public class Menu_PrincipalJP extends javax.swing.JFrame {
     }
     
     public void CambiarPanel(JPanel panel){
-        panel.setSize(820,540);
+        panel.setSize(830, 550);
         panel.setLocation(5,5);
         PANEL_INTRO.removeAll();
         PANEL_INTRO.add(panel);
@@ -273,12 +273,7 @@ public class Menu_PrincipalJP extends javax.swing.JFrame {
 
     private void panelContainerOrdenesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelContainerOrdenesMouseClicked
         Panel_ConsultarOrdenes pOrdenes = new Panel_ConsultarOrdenes();
-        pOrdenes.setSize(830, 550);//Tamaño del panel
-        pOrdenes.setLocation(5, 5);//Posición dentro del panel principal
-        PANEL_INTRO.removeAll();
-        PANEL_INTRO.add(pOrdenes);
-        PANEL_INTRO.revalidate();
-        PANEL_INTRO.repaint();
+        CambiarPanel(pOrdenes);
     }//GEN-LAST:event_panelContainerOrdenesMouseClicked
 
     private void panelContainerOrdenesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelContainerOrdenesMouseExited
@@ -287,12 +282,7 @@ public class Menu_PrincipalJP extends javax.swing.JFrame {
 
     private void panelContainerCronoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelContainerCronoMouseClicked
         Panel_ArmarCronograma pCronograma = new Panel_ArmarCronograma();
-        pCronograma.setSize(830, 550);//Tamaño del panel
-        pCronograma.setLocation(5, 5);//Posición dentro del panel principal
-        PANEL_INTRO.removeAll();
-        PANEL_INTRO.add(pCronograma);
-        PANEL_INTRO.revalidate();
-        PANEL_INTRO.repaint();
+        CambiarPanel(pCronograma);
     }//GEN-LAST:event_panelContainerCronoMouseClicked
 
     private void panelContainerCronoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelContainerCronoMouseEntered
