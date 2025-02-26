@@ -4,8 +4,7 @@
  */
 package Main;
 
-import GUI.JefeProducciónGUI1;
-
+import GUI.Pantalla_Inicio;
 
 /**
  *
@@ -13,7 +12,7 @@ import GUI.JefeProducciónGUI1;
  */
 public class Main {
     public static void main(String[] args) {
-        JefeProducciónGUI1 gui = new JefeProducciónGUI1();
+        Pantalla_Inicio gui = new Pantalla_Inicio();
         gui.setVisible(true);
     }
 }
