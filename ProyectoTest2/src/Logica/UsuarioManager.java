@@ -6,8 +6,8 @@ import javax.swing.JOptionPane;
 
 public class UsuarioManager {
     private static final String URL = "jdbc:mysql://localhost:3306/dsi";
-    private static final String USER = "usuario1";
-    private static final String PASSWORD = "1234";
+    private static final String USER = "root";
+    private static final String PASSWORD = "1421";
 
     public static void verificarUsuario(String usuario, String contraseña) {
         String query = "SELECT tipo FROM usuarios WHERE usuario = ? AND contraseña = ?";
