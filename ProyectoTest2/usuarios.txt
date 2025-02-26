@@ -1,0 +1,2 @@
+usuario1,contraseña1,admin
+usuario2,contraseña2,usuario
