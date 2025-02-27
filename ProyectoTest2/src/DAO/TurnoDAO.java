@@ -4,6 +4,7 @@
  */
 package DAO;
 import Beans.Turno;
+import Interfaces.DAO.ITurno;
 import java.sql.Connection;
 import java.util.List;
 import java.sql.ResultSet;
@@ -14,15 +15,11 @@ import java.util.ArrayList;
  *
  * @author quino
  */
-public class TurnoDAO {
-    public List<Turno> obtenerListaTurno(){
+public class TurnoDAO implements ITurno {
+    @Override
+    public List<Turno> ObtenerListaTurnos() {
         List<Turno> listaTurnos = new ArrayList<>();
-        Connection conn = ConexionBD.obtenerConexion(); // Aquí se obtiene la conexión
-
-        if (conn == null) {
-            System.out.println("No se pudo conectar a la base de datos.");
-            return listaTurnos;
-        }
+        Connection conn = ConexionBD.obtenerConexion();
 
         String consulta = "SELECT idTurno, nombre FROM Turno";
 
@@ -40,7 +37,7 @@ public class TurnoDAO {
         } finally {
             try {
                 conn.close();
-                System.out.println("Conexion cerrada en PaisDAO.");
+                System.out.println("Conexion cerrada en TurnoDAO.");
             } catch (Exception e) {
                 e.printStackTrace();
             }
