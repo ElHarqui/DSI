@@ -4,6 +4,9 @@
  */
 package GUI;
 
+import DAO.TurnoDAO;
+
+import javax.swing.*;
 import java.awt.Color;
 
 /**
@@ -352,7 +355,13 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         });
         panelCrearCronAddEmple.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 80, 180, 30));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox2= new JComboBox<>();
+        TurnoDAO turnoDAO = new TurnoDAO();
+        for(var turno:turnoDAO.obtenerListaTurno()){
+            var nombre = turno.getNombreTurno();
+            jComboBox2.addItem(nombre);
+
+        }
         panelCrearCronAddEmple.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 200, 180, 30));
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));

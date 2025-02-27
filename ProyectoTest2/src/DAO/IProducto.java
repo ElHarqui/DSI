@@ -10,4 +10,5 @@ public interface IProducto {
     public boolean editarProducto(Producto producto);
     public Producto obtenerProductoPorId(Integer id);
     public boolean eliminarProductoPorId(Integer id);
+    public List<Producto> encontrarProductosPorIdCliente(Integer idCliente);
 }

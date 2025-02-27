@@ -5,9 +5,12 @@
 package GUI;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
 
+import Beans.Cliente;
 import Beans.Producto;
+import DAO.ClienteDAO;
 import DAO.IProducto;
 import DAO.ProductoDAO;
 import com.toedter.calendar.JDateChooser;
@@ -74,7 +77,7 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
         JDateChooser dateChooserFFCrea;
         JDateChooser dateChooserFICrea;
         JComboBox<String> comboNomClientCrea;
-        JComboBox<String> comboNomProdcCrea = new JComboBox<>();
+        JComboBox<String> comboNomProdcCrea;
         int panelWidth = 840;
         int panelHeight = 560;
         int compWidth = 200;
@@ -268,23 +271,44 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
 // ComboBox "Nombre Cliente"
         comboNomClientCrea = new javax.swing.JComboBox<>();
         comboNomClientCrea.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        ClienteDAO clienteDAO = new ClienteDAO();
+        ProductoDAO productoDAO=new ProductoDAO();
+        List<Integer> listaIdsClientes = new ArrayList();
+        for(var cliente:clienteDAO.listarClientes()){
+            var nombre = cliente.getNombre();
+            var idCliente = cliente.getIdCliente();
+            comboNomClientCrea.addItem(nombre);
+            listaIdsClientes.add(idCliente);
+        }
         panelCrearOrdenes.add(comboNomClientCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(centerX, startY + 3 * stepY, compWidth, 30));
+
+// ComboBox "Nombre Producto"
+        comboNomProdcCrea= new javax.swing.JComboBox<>();
+        comboNomProdcCrea.setFont(new java.awt.Font("Segoe UI", 0, 14));
+
+        // ActionListener para detectar cambios en la selección de cliente y agrega productos de acuerdo a la seleccion
+        comboNomClientCrea.addActionListener(e -> {
+            int selectedIndex = comboNomClientCrea.getSelectedIndex();
+            if (selectedIndex >= 0) {
+                int idClienteSeleccionado = listaIdsClientes.get(selectedIndex); // Obtener el ID correspondiente
+                List<Producto> productos = productoDAO.encontrarProductosPorIdCliente(idClienteSeleccionado);
+
+                // Limpiar el combo de productos antes de actualizarlo
+                comboNomProdcCrea.removeAllItems();
+
+                for (Producto producto : productos) {
+                    comboNomProdcCrea.addItem(producto.getNombre());
+                }
+            }
+        });
+
+        panelCrearOrdenes.add(comboNomProdcCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(centerX, startY + 5 * stepY, compWidth, 30));
+
 
 // Etiqueta "Nombre Producto"
         lblNameProdcCronCrea.setFont(new java.awt.Font("Segoe UI", 1, 14));
         lblNameProdcCronCrea.setText("Nombre Producto");
         panelCrearOrdenes.add(lblNameProdcCronCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(centerX, startY + 4 * stepY, -1, -1));
-
-// ComboBox "Nombre Producto"
-        comboNomProdcCrea= new javax.swing.JComboBox<>();
-        comboNomProdcCrea.setFont(new java.awt.Font("Segoe UI", 0, 14));
-        ProductoDAO productoDAO=new ProductoDAO();
-        List<Producto> listaProductos =  productoDAO.listarProductos();
-        for(var producto:listaProductos) {
-            var nombre = producto.getNombre();
-            comboNomProdcCrea.addItem(nombre);
-        }
-            panelCrearOrdenes.add(comboNomProdcCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(centerX, startY + 5 * stepY, compWidth, 30));
 
 // Etiqueta "Fecha Inicio"
         lblFechaInicioCronCrear.setFont(new java.awt.Font("Segoe UI", 1, 14));

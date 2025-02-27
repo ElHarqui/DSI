@@ -48,4 +48,10 @@ public class TurnoDAO {
 
         return listaTurnos;
     }
+
+    public static void main(String[] args) {
+        TurnoDAO prueba = new TurnoDAO();
+        for(var res:prueba.obtenerListaTurno())
+            System.out.println(res);
+    }
 }

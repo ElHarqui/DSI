@@ -3,7 +3,7 @@ package Beans;
 import java.util.Objects;
 
 public class Cliente {
-    private int IdCliente;
+    private Integer IdCliente;
     private String nombre;
     private String correo;
     private String telefono;
@@ -12,8 +12,8 @@ public class Cliente {
     public Cliente() {
     }
 
-    public Cliente(int idCliente, String nombre, String correo, String telefono, String codPais) {
-        IdCliente = idCliente;
+    public Cliente(Integer idCliente, String nombre, String correo, String telefono, String codPais) {
+        this.IdCliente = idCliente;
         this.nombre = nombre;
         this.correo = correo;
         this.telefono = telefono;

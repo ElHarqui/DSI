@@ -103,6 +103,34 @@ public class ProductoDAO implements IProducto{
         return false;
     }
 
+    @Override
+    public List<Producto> encontrarProductosPorIdCliente(Integer idCliente) {
+        if (this.conexion == null) {
+            this.conexion = ConexionBD.obtenerConexion();
+        }
+        List<Producto> productos = new ArrayList<>();
+        String sql = "SELECT * FROM producto WHERE idCliente=?";
+
+        try (PreparedStatement stmt = this.conexion.prepareStatement(sql)) {
+            stmt.setInt(1, idCliente);
+            try (ResultSet rs = stmt.executeQuery()) { // Corrección aquí
+                while (rs.next()) {
+                    Producto producto = new Producto(
+                            rs.getInt("idProducto"),
+                            rs.getString("nombre"),
+                            rs.getString("descripcion"),
+                            rs.getInt("idCliente")
+                    );
+                    productos.add(producto);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return productos;
+    }
+
 
     public static void main(String[] args) {
         ProductoDAO prueba = new ProductoDAO();
@@ -111,3 +139,4 @@ public class ProductoDAO implements IProducto{
         }
     }
 }
+

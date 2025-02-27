@@ -32,5 +32,12 @@ public class Turno {
     public void setNombreTurno(String nombreTurno) {
         this.nombreTurno = nombreTurno;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Turno{" +
+                "idTurno=" + idTurno +
+                ", nombreTurno='" + nombreTurno + '\'' +
+                '}';
+    }
 }
