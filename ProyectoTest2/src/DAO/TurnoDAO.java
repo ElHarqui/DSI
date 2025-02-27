@@ -19,11 +19,6 @@ public class TurnoDAO {
         List<Turno> listaTurnos = new ArrayList<>();
         Connection conn = ConexionBD.obtenerConexion(); // Aquí se obtiene la conexión
 
-        if (conn == null) {
-            System.out.println("No se pudo conectar a la base de datos.");
-            return listaTurnos;
-        }
-
         String consulta = "SELECT idTurno, nombre FROM Turno";
 
         try (Statement stmt = conn.createStatement();
