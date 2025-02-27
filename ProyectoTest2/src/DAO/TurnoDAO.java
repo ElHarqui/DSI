@@ -4,6 +4,7 @@
  */
 package DAO;
 import Beans.Turno;
+import Interfaces.DAO.ITurno;
 import java.sql.Connection;
 import java.util.List;
 import java.sql.ResultSet;
@@ -36,7 +37,7 @@ public class TurnoDAO implements ITurno {
         } finally {
             try {
                 conn.close();
-                System.out.println("Conexion cerrada en PaisDAO.");
+                System.out.println("Conexion cerrada en TurnoDAO.");
             } catch (Exception e) {
                 e.printStackTrace();
             }

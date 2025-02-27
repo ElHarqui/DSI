@@ -2,16 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
-package DAO;
+package Interfaces.DAO;
 
-import Beans.Turno;
-import java.util.List;
+import javax.swing.JTextField;
 
 /**
  *
  * @author quino
  */
-public interface ITurno {
-    public List<Turno> ObtenerListaTurnos();
-    
+public interface IOrden {
+    public void obtenerNumeroOrden(JTextField txtOrden);
 }
