@@ -14,8 +14,9 @@ import java.util.ArrayList;
  *
  * @author quino
  */
-public class TurnoDAO {
-    public List<Turno> obtenerListaTurno(){
+public class TurnoDAO implements ITurno {
+    @Override
+    public List<Turno> ObtenerListaTurnos() {
         List<Turno> listaTurnos = new ArrayList<>();
         Connection conn = ConexionBD.obtenerConexion();
 
