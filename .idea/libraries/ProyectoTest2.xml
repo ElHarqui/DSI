@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="ProyectoTest2">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/ProyectoTest2/dist/ProyectoTest2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/ProyectoTest2/AbsoluteLayout.jar!/" />
+      <root url="jar://$PROJECT_DIR$/ProyectoTest2/jcalendar-1.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

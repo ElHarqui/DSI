@@ -5,6 +5,10 @@
 package GUI;
 
 import java.awt.Color;
+import com.toedter.calendar.JDateChooser;
+
+import javax.swing.*;
+
 
 /**
  *
@@ -62,10 +66,21 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
         btnGuardarCrear = new javax.swing.JButton();
         lblCodCronograma = new javax.swing.JLabel();
         txtFieldCronogramaIdCrea = new javax.swing.JTextField();
+        JDateChooser dateChooserFFCrea;
+        JDateChooser dateChooserFICrea;
+        JComboBox<String> comboNomClientCrea;
+        JComboBox<String> comboNomProdcCrea = new JComboBox<>();
+        int panelWidth = 840;
+        int panelHeight = 560;
+        int compWidth = 200;
+        int centerX = (panelWidth - compWidth) / 2; // Calcula el centro
+        int startY = 30;  // Margen superior inicial
+        int stepY = 40;   // Espacio entre componentes
+
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        panelContenedorConslOrdenes.setPreferredSize(new java.awt.Dimension(840, 560));
+        panelContenedorConslOrdenes.setPreferredSize(new java.awt.Dimension(panelWidth, panelHeight));
         panelContenedorConslOrdenes.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelCentralConslOrdenes.setBackground(new java.awt.Color(214, 250, 140));
@@ -226,73 +241,75 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
         panelCrearOrdenes.setPreferredSize(new java.awt.Dimension(840, 560));
         panelCrearOrdenes.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblCodOrden.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        // Etiqueta "N° Orden"
+        lblCodOrden.setFont(new java.awt.Font("Segoe UI", 1, 18));
         lblCodOrden.setText("N° Orden");
-        panelCrearOrdenes.add(lblCodOrden, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 20, -1, -1));
+        panelCrearOrdenes.add(lblCodOrden, new org.netbeans.lib.awtextra.AbsoluteConstraints(centerX, startY, -1, -1));
 
-        lblNameClienteCronCrea.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblNameClienteCronCrea.setText("Nombre Cliente");
-        panelCrearOrdenes.add(lblNameClienteCronCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, -1, -1));
+// Etiqueta "N° Orden"
+        lblCodOrden.setFont(new java.awt.Font("Segoe UI", 1, 18));
+        lblCodOrden.setText("N° Orden");
+        panelCrearOrdenes.add(lblCodOrden, new org.netbeans.lib.awtextra.AbsoluteConstraints(centerX, startY, -1, -1));
 
-        lblNameProdcCronCrea.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblNameProdcCronCrea.setText("Nombre Producto");
-        panelCrearOrdenes.add(lblNameProdcCronCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 130, -1));
-
-        lblFechaInicioCronCrear.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblFechaInicioCronCrear.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblFechaInicioCronCrear.setText("Fecha Inicio");
-        panelCrearOrdenes.add(lblFechaInicioCronCrear, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 170, -1, -1));
-
-        lblFechaFinCronCrear.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblFechaFinCronCrear.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblFechaFinCronCrear.setText("Fecha Final");
-        panelCrearOrdenes.add(lblFechaFinCronCrear, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 210, 80, -1));
-
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "Nombre ", "Area", "Turno", "Maquina", "Fecha Asignacion"
-            }
-        ));
-        jScrollPane2.setViewportView(jTable2);
-
-        panelCrearOrdenes.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, 820, 250));
-
+// Campo de número de orden
         txtFieldNumOrdenCrea.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        panelCrearOrdenes.add(txtFieldNumOrdenCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 10, 130, 50));
+        panelCrearOrdenes.add(txtFieldNumOrdenCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(centerX, startY + stepY, compWidth, 30));
 
-        txtFieldNomClientCrea.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        panelCrearOrdenes.add(txtFieldNomClientCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 90, 130, -1));
+// Etiqueta "Nombre Cliente"
+        lblNameClienteCronCrea.setFont(new java.awt.Font("Segoe UI", 1, 14));
+        lblNameClienteCronCrea.setText("Nombre Cliente");
+        panelCrearOrdenes.add(lblNameClienteCronCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(centerX, startY + 2 * stepY, -1, -1));
 
-        txtFieldNomProdcCrea.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        panelCrearOrdenes.add(txtFieldNomProdcCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, 130, -1));
+// ComboBox "Nombre Cliente"
+        comboNomClientCrea = new javax.swing.JComboBox<>();
+        comboNomClientCrea.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        panelCrearOrdenes.add(comboNomClientCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(centerX, startY + 3 * stepY, compWidth, 30));
 
-        txtFieldFICrea.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        panelCrearOrdenes.add(txtFieldFICrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 170, 130, -1));
+// Etiqueta "Nombre Producto"
+        lblNameProdcCronCrea.setFont(new java.awt.Font("Segoe UI", 1, 14));
+        lblNameProdcCronCrea.setText("Nombre Producto");
+        panelCrearOrdenes.add(lblNameProdcCronCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(centerX, startY + 4 * stepY, -1, -1));
 
-        txtFieldFFCrea.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        panelCrearOrdenes.add(txtFieldFFCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 210, 130, -1));
+// ComboBox "Nombre Producto"
+        comboNomProdcCrea= new javax.swing.JComboBox<>();
+        comboNomProdcCrea.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        panelCrearOrdenes.add(comboNomProdcCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(centerX, startY + 5 * stepY, compWidth, 30));
 
+// Etiqueta "Fecha Inicio"
+        lblFechaInicioCronCrear.setFont(new java.awt.Font("Segoe UI", 1, 14));
+        lblFechaInicioCronCrear.setText("Fecha Inicio");
+        panelCrearOrdenes.add(lblFechaInicioCronCrear, new org.netbeans.lib.awtextra.AbsoluteConstraints(centerX, startY + 6 * stepY, -1, -1));
+
+// JDateChooser "Fecha Inicio"
+        dateChooserFICrea = new JDateChooser();
+        dateChooserFICrea.setDateFormatString("yyyy-MM-dd");
+        panelCrearOrdenes.add(dateChooserFICrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(centerX, startY + 7 * stepY, compWidth, 30));
+
+// Etiqueta "Fecha Final"
+        lblFechaFinCronCrear.setFont(new java.awt.Font("Segoe UI", 1, 14));
+        lblFechaFinCronCrear.setText("Fecha Final");
+        panelCrearOrdenes.add(lblFechaFinCronCrear, new org.netbeans.lib.awtextra.AbsoluteConstraints(centerX, startY + 8 * stepY, -1, -1));
+
+// JDateChooser "Fecha Final"
+        dateChooserFFCrea = new JDateChooser();
+        dateChooserFFCrea.setDateFormatString("yyyy-MM-dd");
+        panelCrearOrdenes.add(dateChooserFFCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(centerX, startY + 9 * stepY, compWidth, 30));
+
+// Botón "Guardar" (Centrado y ubicado dentro del panel)
         btnGuardarCrear.setText("Guardar");
         btnGuardarCrear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarCrearActionPerformed(evt);
             }
         });
-        panelCrearOrdenes.add(btnGuardarCrear, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 200, 180, 40));
+        panelCrearOrdenes.add(btnGuardarCrear, new org.netbeans.lib.awtextra.AbsoluteConstraints(centerX, startY + 10 * stepY, 200, 40));
 
-        lblCodCronograma.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblCodCronograma.setText("N° Cronograma");
-        panelCrearOrdenes.add(lblCodCronograma, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
-        panelCrearOrdenes.add(txtFieldCronogramaIdCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 10, 130, 50));
+//        lblCodCronograma.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+//        lblCodCronograma.setText("N° Cronograma");
+//        panelCrearOrdenes.add(lblCodCronograma, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
+//        panelCrearOrdenes.add(txtFieldCronogramaIdCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 10, 130, 50));
 
         panelContenedorConslOrdenes.add(panelCrearOrdenes, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
-
         add(panelContenedorConslOrdenes, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
