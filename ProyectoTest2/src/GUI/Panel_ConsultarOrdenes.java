@@ -5,17 +5,25 @@
 package GUI;
 
 import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import Beans.Cliente;
+import Beans.Orden;
 import Beans.Producto;
 import DAO.ClienteDAO;
 import DAO.IProducto;
+import DAO.OrdenDAO;
 import DAO.ProductoDAO;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 
 /**
@@ -23,6 +31,10 @@ import javax.swing.*;
  * @author Usuario
  */
 public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
+    OrdenDAO ordenDAO = new OrdenDAO();
+    private JDateChooser dateChooserFICrea;
+    private JDateChooser dateChooserFFCrea;
+    private Orden orden = new Orden();
 
     /**
      * Creates new form Panel_ConsultarOrdenes
@@ -30,6 +42,7 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
     public Panel_ConsultarOrdenes() {
         initComponents();
         vaciarContenedores();
+        cargarOrdenesEnTabla();
     }
 
     public void vaciarContenedores(){
@@ -74,8 +87,6 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
         btnGuardarCrear = new javax.swing.JButton();
         lblCodCronograma = new javax.swing.JLabel();
         txtFieldCronogramaIdCrea = new javax.swing.JTextField();
-        JDateChooser dateChooserFFCrea;
-        JDateChooser dateChooserFICrea;
         JComboBox<String> comboNomClientCrea;
         JComboBox<String> comboNomProdcCrea;
         int panelWidth = 840;
@@ -249,6 +260,8 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
         panelCrearOrdenes.setPreferredSize(new java.awt.Dimension(840, 560));
         panelCrearOrdenes.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+
+
         // Etiqueta "N° Orden"
         lblCodOrden.setFont(new java.awt.Font("Segoe UI", 1, 18));
         lblCodOrden.setText("N° Orden");
@@ -274,6 +287,7 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
         ClienteDAO clienteDAO = new ClienteDAO();
         ProductoDAO productoDAO=new ProductoDAO();
         List<Integer> listaIdsClientes = new ArrayList();
+        List<Integer> listaIdsProd = new ArrayList<>();
         for(var cliente:clienteDAO.listarClientes()){
             var nombre = cliente.getNombre();
             var idCliente = cliente.getIdCliente();
@@ -290,15 +304,47 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
         comboNomClientCrea.addActionListener(e -> {
             int selectedIndex = comboNomClientCrea.getSelectedIndex();
             if (selectedIndex >= 0) {
-                int idClienteSeleccionado = listaIdsClientes.get(selectedIndex); // Obtener el ID correspondiente
+                int idClienteSeleccionado = listaIdsClientes.get(selectedIndex);
                 List<Producto> productos = productoDAO.encontrarProductosPorIdCliente(idClienteSeleccionado);
 
-                // Limpiar el combo de productos antes de actualizarlo
+                //  Deshabilitar temporalmente el ActionListener para evitar eventos no deseados
+                ActionListener[] listeners = comboNomProdcCrea.getActionListeners();
+                for (ActionListener al : listeners) {
+                    comboNomProdcCrea.removeActionListener(al);
+                }
+
+                // Limpiar lista y ComboBox
+                listaIdsProd.clear();
                 comboNomProdcCrea.removeAllItems();
 
+                // Llenar con nuevos productos
                 for (Producto producto : productos) {
                     comboNomProdcCrea.addItem(producto.getNombre());
+                    listaIdsProd.add(producto.getIdProducto());
                 }
+
+                // Solo seleccionar el primer elemento si hay productos
+                if (!listaIdsProd.isEmpty()) {
+                    comboNomProdcCrea.setSelectedIndex(0);
+                } else {
+                    System.out.println("El cliente seleccionado no tiene productos.");
+                }
+
+                // Volver a agregar los listeners después de la actualización
+                for (ActionListener al : listeners) {
+                    comboNomProdcCrea.addActionListener(al);
+                }
+            }
+        });
+
+        comboNomProdcCrea.addActionListener(e -> {
+            int selectIndex = comboNomProdcCrea.getSelectedIndex();
+
+            // Verificar que la lista no esté vacía y el índice sea válido
+            if (!listaIdsProd.isEmpty() && selectIndex >= 0 && selectIndex < listaIdsProd.size()) {
+                int idProducto = listaIdsProd.get(selectIndex);
+                orden.setIdProducto(idProducto);
+                System.out.println("Producto seleccionado: " + idProducto);
             }
         });
 
@@ -318,7 +364,6 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
 // JDateChooser "Fecha Inicio"
         dateChooserFICrea = new JDateChooser();
         dateChooserFICrea.setDateFormatString("yyyy-MM-dd");
-        panelCrearOrdenes.add(dateChooserFICrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(centerX, startY + 7 * stepY, compWidth, 30));
 
 // Etiqueta "Fecha Final"
         lblFechaFinCronCrear.setFont(new java.awt.Font("Segoe UI", 1, 14));
@@ -328,6 +373,8 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
 // JDateChooser "Fecha Final"
         dateChooserFFCrea = new JDateChooser();
         dateChooserFFCrea.setDateFormatString("yyyy-MM-dd");
+
+        panelCrearOrdenes.add(dateChooserFICrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(centerX, startY + 7 * stepY, compWidth, 30));
         panelCrearOrdenes.add(dateChooserFFCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(centerX, startY + 9 * stepY, compWidth, 30));
 
 // Botón "Guardar" (Centrado y ubicado dentro del panel)
@@ -347,6 +394,22 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
         panelContenedorConslOrdenes.add(panelCrearOrdenes, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
         add(panelContenedorConslOrdenes, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
+    private void cargarOrdenesEnTabla() {
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0); // Limpiar la tabla antes de insertar nuevos datos
+
+        List<Orden> listaOrdenes = ordenDAO.listarOrdenes(); // Obtener lista desde DAO
+
+        for (Orden orden : listaOrdenes) {
+            model.addRow(new Object[]{
+                    orden.getIdOrden(),
+                    orden.getNombreProducto(), // Mostrar el nombre del producto en la tabla
+                    orden.getFechaInicio(),
+                    orden.getFechaTermino()
+            });
+        }
+    }
+
 
     private void panelContainerCrearOrdenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelContainerCrearOrdenMouseClicked
         panelCentralConslOrdenes.setVisible(false);
@@ -433,7 +496,41 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton2MouseExited
 
     private void btnGuardarCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarCrearActionPerformed
+        Date fechaInicioSeleccionada = dateChooserFICrea.getDate();
+        Date fechaFinalSeleccionada = dateChooserFFCrea.getDate();
 
+        // Validar que ambas fechas no sean nulas
+        if (fechaInicioSeleccionada == null || fechaFinalSeleccionada == null) {
+            JOptionPane.showMessageDialog(null, "Seleccione ambas fechas (inicio y final)", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Convertir java.util.Date a java.time.LocalDate
+        Instant instantInicio = fechaInicioSeleccionada.toInstant();
+        Instant instantFinal = fechaFinalSeleccionada.toInstant();
+        ZoneId zoneId = ZoneId.systemDefault();
+
+        LocalDate fechaInicio = instantInicio.atZone(zoneId).toLocalDate();
+        LocalDate fechaFinal = instantFinal.atZone(zoneId).toLocalDate();
+
+        // Validar que la fecha final no sea anterior a la fecha de inicio
+        if (fechaFinal.isBefore(fechaInicio)) {
+            JOptionPane.showMessageDialog(null, "La fecha final no puede ser anterior a la fecha de inicio", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Crear objeto Orden y asignar valores
+
+        orden.setFechaInicio(fechaInicio);
+        orden.setFechaTermino(fechaFinal);
+
+
+        // Guardar la orden
+        if (ordenDAO.agregarOrden(orden)) {
+            JOptionPane.showMessageDialog(null, "Orden guardada correctamente");
+        } else {
+            JOptionPane.showMessageDialog(null, "Error al guardar la orden", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnGuardarCrearActionPerformed
 
 

@@ -364,7 +364,7 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         });
         panelCrearCronAddEmple.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 80, 180, 30));
 
-        ComboxTurnos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+//        ComboxTurnos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         ComboxTurnos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ComboxTurnosActionPerformed(evt);

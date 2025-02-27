@@ -4,53 +4,72 @@
  */
 package Beans;
 import java.sql.Date;
+import java.time.LocalDate;
+
 /**
  *
  * @author quino
  */
 public class Orden {
-    private int idOrden;
-    private int idProducto;
-    private Date fechaInicio;
-    private Date fechaTermino;
+    private Integer idOrden;
+    private LocalDate fechaInicio;
+    private LocalDate fechaTermino;
+    private Integer idProducto;
+    private String nombreProducto;
 
-    public Orden(int idOrden, int idProducto, Date fechaInicio, Date fechaTermino) {
+    public Orden(){}
+
+    public Orden(Integer idOrden, LocalDate fechaInicio, LocalDate fechaTermino, Integer idProducto) {
         this.idOrden = idOrden;
-        this.idProducto = idProducto;
         this.fechaInicio = fechaInicio;
         this.fechaTermino = fechaTermino;
+        this.idProducto = idProducto;
     }
 
-    public int getIdOrden() {
+    public Orden(LocalDate fechaInicio,LocalDate fechaTermino,Integer idProducto){
+        this.fechaInicio=fechaInicio;
+        this.fechaTermino=fechaTermino;
+        this.idProducto=idProducto;
+    }
+
+    public Integer getIdOrden() {
         return idOrden;
     }
 
-    public void setIdOrden(int idOrden) {
+    public void setIdOrden(Integer idOrden) {
         this.idOrden = idOrden;
     }
 
-    public int getIdProducto() {
+    public Integer getIdProducto() {
         return idProducto;
     }
 
-    public void setIdProducto(int idProducto) {
+    public void setIdProducto(Integer idProducto) {
         this.idProducto = idProducto;
     }
 
-    public Date getFechaInicio() {
+    public LocalDate getFechaInicio() {
         return fechaInicio;
     }
 
-    public void setFechaInicio(Date fechaInicio) {
+    public void setFechaInicio(LocalDate fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
-    public Date getFechaTermino() {
+    public LocalDate getFechaTermino() {
         return fechaTermino;
     }
 
-    public void setFechaTermino(Date fechaTermino) {
+    public void setFechaTermino(LocalDate fechaTermino) {
         this.fechaTermino = fechaTermino;
+    }
+
+    public String getNombreProducto() {
+        return nombreProducto;
+    }
+
+    public void setNombreProducto(String nombreProducto) {
+        this.nombreProducto = nombreProducto;
     }
     
 }
