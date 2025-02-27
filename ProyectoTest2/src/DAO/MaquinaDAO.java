@@ -3,35 +3,37 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package DAO;
-import Beans.Turno;
-import Interfaces.DAO.ITurno;
 import java.sql.Connection;
+import Beans.Maquina;
+import Interfaces.DAO.IMaquina;
+import java.util.ArrayList;
 import java.util.List;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.ArrayList;
 
 /**
  *
  * @author quino
  */
-public class TurnoDAO implements ITurno {
-    private Connection conn ;
+public class MaquinaDAO implements IMaquina{
+    private Connection conn;
+
     @Override
-    public List<Turno> ObtenerListaTurnos() {
+    public List<Maquina> obtenerListaMaquinas() {
         if(this.conn == null){
             this.conn= ConexionBD.obtenerConexion();
         }
-        List<Turno> listaTurnos = new ArrayList<>();
-        String consulta = "SELECT idTurno, nombre FROM Turno";
+        List<Maquina> maquinas = new ArrayList<>();
+        String consulta = "SELECT idMaquina, modelo,idArea FROM Maquina ";
 
         try (Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(consulta)) {
 
             while (rs.next()) {
-                int idTurno = rs.getInt("idTurno");
-                String nombreTurno = rs.getString("nombre");
-                listaTurnos.add(new Turno(idTurno, nombreTurno));
+                int idMaquina = rs.getInt("idMaquina");
+                String modelo = rs.getString("modelo");
+                int idArea = rs.getInt("idArea");
+                maquinas.add(new Maquina(idMaquina, modelo, idArea));
             }
 
         } catch (Exception e) {
@@ -39,11 +41,13 @@ public class TurnoDAO implements ITurno {
         } finally {
             try {
                 conn.close();
-                System.out.println("Conexion cerrada en TurnoDAO.");
+                System.out.println("Conexion cerrada en MaquinaDAO.");
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        return listaTurnos;
+
+        return maquinas;
     }
+
 }

@@ -4,11 +4,10 @@
  */
 package GUI;
 
-import Beans.Turno;
+import Controladores.AreaControlador;
+import Controladores.MaquinaControlador;
 import Controladores.TurnoControlador;
 import java.awt.Color;
-import java.util.List;
-
 /**
  *
  * @author Usuario
@@ -21,22 +20,38 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
     public Panel_ArmarCronograma() {
         initComponents();
         vaciarContenedores();
-        cargarTurnos();
+        cargaTurnos();
+        cargarAreas();
+        cargarMaquinas();
     }
-
+    
     public void vaciarContenedores(){
         panelCrearCrono.setVisible(false);
         panelCrearCronAddEmple.setVisible(false);
     }
-    
-    public void cargarTurnos(){
+    public void cargaTurnos(){
+        jComboxTurnos.removeAllItems();
         TurnoControlador turnoControlador = new TurnoControlador();
-        List<Turno> listaTurnos = turnoControlador.obtenerTurnos();
-        for (Turno turno : listaTurnos){
-            ComboxTurnos.addItem(turno.getNombreTurno());
+        for (var turno : turnoControlador.obtenerTurnos()){
+            jComboxTurnos.addItem(turno.getNombreTurno());
         }
     }
     
+    public void cargarAreas(){
+        jComboxAreas.removeAllItems();
+        AreaControlador areaControlador = new AreaControlador();
+        for (var area : areaControlador.obtenerAreas()){
+            jComboxAreas.addItem(area.getNombreArea());
+        }
+    }
+    
+    public void cargarMaquinas(){
+        jComboxMaquinas.removeAllItems();
+        MaquinaControlador m = new MaquinaControlador();
+        for (var maquina : m.obtenerMaquinas()){
+            jComboxMaquinas.addItem(maquina.getModelo());
+        }
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -85,9 +100,9 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         lblNamMaquCronAdddEmpl = new javax.swing.JLabel();
         lblDateAsigCronAdddEmpl = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
-        ComboxTurnos = new javax.swing.JComboBox<>();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        jComboBox4 = new javax.swing.JComboBox<>();
+        jComboxTurnos = new javax.swing.JComboBox<>();
+        jComboxAreas = new javax.swing.JComboBox<>();
+        jComboxMaquinas = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
@@ -364,19 +379,24 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         });
         panelCrearCronAddEmple.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 80, 180, 30));
 
-        ComboxTurnos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        ComboxTurnos.addActionListener(new java.awt.event.ActionListener() {
+        jComboxTurnos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboxTurnos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ComboxTurnosActionPerformed(evt);
+                jComboxTurnosActionPerformed(evt);
             }
         });
-        panelCrearCronAddEmple.add(ComboxTurnos, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 200, 180, 30));
+        panelCrearCronAddEmple.add(jComboxTurnos, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 200, 180, 30));
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        panelCrearCronAddEmple.add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 260, 180, 30));
+        jComboxAreas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboxAreas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboxAreasActionPerformed(evt);
+            }
+        });
+        panelCrearCronAddEmple.add(jComboxAreas, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 260, 180, 30));
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        panelCrearCronAddEmple.add(jComboBox4, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 320, 180, 30));
+        jComboxMaquinas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        panelCrearCronAddEmple.add(jComboxMaquinas, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 320, 180, 30));
 
         jLabel8.setBackground(new java.awt.Color(255, 255, 153));
         jLabel8.setOpaque(true);
@@ -592,17 +612,19 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed
 
-    private void ComboxTurnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboxTurnosActionPerformed
+    private void jComboxTurnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboxTurnosActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_ComboxTurnosActionPerformed
+    }//GEN-LAST:event_jComboxTurnosActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jComboxAreasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboxAreasActionPerformed
+           
+    }//GEN-LAST:event_jComboxAreasActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> ComboxTurnos;
     private javax.swing.JTextField IDText;
     private javax.swing.JComboBox<String> Orden;
     private javax.swing.JButton btnAgregarEmpleCron;
@@ -611,8 +633,9 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox4;
+    private javax.swing.JComboBox<String> jComboxAreas;
+    private javax.swing.JComboBox<String> jComboxMaquinas;
+    private javax.swing.JComboBox<String> jComboxTurnos;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
