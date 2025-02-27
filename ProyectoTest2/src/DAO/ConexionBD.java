@@ -17,7 +17,7 @@ public class ConexionBD {
     // Datos de conexión a MySQL
     private static final String URL = "jdbc:mysql://localhost:3306/envolturaperu";
     private static final String USER = "root"; // Tu usuario de MySQL
-    private static final String PASSWORD = "root"; // Tu contraseña de MySQL
+    private static final String PASSWORD = "youcantkillme123"; // Tu contraseña de MySQL
 
     // Método para obtener la conexión
     public static Connection obtenerConexion() {
@@ -51,5 +51,9 @@ public class ConexionBD {
             System.out.println("Error al cerrar la conexion.");
             e.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) {
+        obtenerConexion();
     }
 }

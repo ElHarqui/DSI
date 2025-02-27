@@ -5,6 +5,11 @@
 package GUI;
 
 import java.awt.Color;
+import java.util.List;
+
+import Beans.Producto;
+import DAO.IProducto;
+import DAO.ProductoDAO;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
@@ -273,7 +278,13 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
 // ComboBox "Nombre Producto"
         comboNomProdcCrea= new javax.swing.JComboBox<>();
         comboNomProdcCrea.setFont(new java.awt.Font("Segoe UI", 0, 14));
-        panelCrearOrdenes.add(comboNomProdcCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(centerX, startY + 5 * stepY, compWidth, 30));
+        ProductoDAO productoDAO=new ProductoDAO();
+        List<Producto> listaProductos =  productoDAO.listarProductos();
+        for(var producto:listaProductos) {
+            var nombre = producto.getNombre();
+            comboNomProdcCrea.addItem(nombre);
+        }
+            panelCrearOrdenes.add(comboNomProdcCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(centerX, startY + 5 * stepY, compWidth, 30));
 
 // Etiqueta "Fecha Inicio"
         lblFechaInicioCronCrear.setFont(new java.awt.Font("Segoe UI", 1, 14));
