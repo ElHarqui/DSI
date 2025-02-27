@@ -1,33 +1,33 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Logica;
 
-import javax.swing.*;
-import java.io.*;
+import java.sql.*;
+import javax.swing.JOptionPane;
 
 public class UsuarioManager {
-    public static void verificarUsuario(String usuario, String password) {
-        try (BufferedReader br = new BufferedReader(new FileReader("usuarios.txt"))) {
-            String linea;
-            while ((linea = br.readLine()) != null) {
-                String[] datos = linea.split(",");
-                if (datos.length == 3 && datos[0].equals(usuario) && datos[1].equals(password)) {
-                    if (datos[2].equalsIgnoreCase("admin")) {
-                        JOptionPane.showMessageDialog(null, "Bienvenido Administrador");
-                        
-                        //
-                    } else if (datos[2].equalsIgnoreCase("usuario")) {
-                        JOptionPane.showMessageDialog(null, "Bienvenido Usuario");
-                        //
-                    }
-                    return;
-                }
+    private static final String URL = "jdbc:mysql://localhost:3306/dsi";
+    private static final String USER = "root";
+    private static final String PASSWORD = "1421";
+
+    public static void verificarUsuario(String usuario, String contraseña) {
+        String query = "SELECT tipo FROM usuarios WHERE usuario = ? AND contraseña = ?";
+
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, usuario);
+            stmt.setString(2, contraseña);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                String tipo = rs.getString("tipo");
+                JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso como " + tipo);
+            } else {
+                JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
             }
-            JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Error al leer el archivo");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error de conexión a la base de datos: " + e.getMessage());
         }
     }
 }
+
