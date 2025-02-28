@@ -5,11 +5,14 @@
 package GUI;
 
 import Beans.Area;
+import Beans.Empleado;
 import Beans.Maquina;
 import Controladores.AreaControlador;
+import Controladores.EmpleadoControlador;
 import Controladores.MaquinaControlador;
 import Controladores.TurnoControlador;
 import java.awt.Color;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Usuario
@@ -30,6 +33,7 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         panelCrearCrono.setVisible(false);
         panelCrearCronAddEmple.setVisible(false);
     }
+    
     public void cargaTurnos(){
         TurnoControlador turnoControlador = new TurnoControlador();
         for (var turno : turnoControlador.obtenerTurnos()){
@@ -55,6 +59,26 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
             }
         }
     }
+    
+    public void autocompletarNombreEmpleado(int codigoEmpleado) {
+        EmpleadoControlador emp = new EmpleadoControlador();
+        try {
+            Empleado e = emp.obtenerNombreCompleto(codigoEmpleado);
+
+            if (e != null) {
+                String nombreCompleto = e.getNombreEmpleado() + " " + e.getApellidoEmpleado();
+                jTextFieldNombre.setText(nombreCompleto);
+                jTextFieldNombre.setEditable(false);
+            } else {
+                jTextFieldNombre.setText("");  // Limpiar el campo de nombre
+                JOptionPane.showMessageDialog(null, "Empleado no encontrado.");
+            }
+        } catch (NumberFormatException ex) {
+            jTextFieldNombre.setText("");
+            JOptionPane.showMessageDialog(null, "Por favor ingresa un código válido");
+        }
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -102,7 +126,7 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         lblAreaCronAdddEmpl = new javax.swing.JLabel();
         lblNamMaquCronAdddEmpl = new javax.swing.JLabel();
         lblDateAsigCronAdddEmpl = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        jTextFieldCodigo = new javax.swing.JTextField();
         jComboxTurnos = new javax.swing.JComboBox<>();
         jComboxAreas = new javax.swing.JComboBox<>();
         jComboxMaquinas = new javax.swing.JComboBox<>();
@@ -111,7 +135,7 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
-        jTextField3 = new javax.swing.JTextField();
+        jTextFieldNombre = new javax.swing.JTextField();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -375,12 +399,12 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         lblDateAsigCronAdddEmpl.setText("Fecha Asignación");
         panelCrearCronAddEmple.add(lblDateAsigCronAdddEmpl, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 380, -1, -1));
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldCodigo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                jTextFieldCodigoActionPerformed(evt);
             }
         });
-        panelCrearCronAddEmple.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 80, 180, 30));
+        panelCrearCronAddEmple.add(jTextFieldCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 80, 180, 30));
 
         jComboxTurnos.setModel(new javax.swing.DefaultComboBoxModel<>());
         jComboxTurnos.addActionListener(new java.awt.event.ActionListener() {
@@ -451,7 +475,13 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
             }
         });
         panelCrearCronAddEmple.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 40, -1, -1));
-        panelCrearCronAddEmple.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 140, 180, 30));
+
+        jTextFieldNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldNombreActionPerformed(evt);
+            }
+        });
+        panelCrearCronAddEmple.add(jTextFieldNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 140, 180, 30));
         panelCrearCronAddEmple.add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 380, 180, 30));
 
         javax.swing.GroupLayout panelContenedorArmarCronLayout = new javax.swing.GroupLayout(panelContenedorArmarCron);
@@ -611,9 +641,11 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    private void jTextFieldCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCodigoActionPerformed
+        int codigoEmpleado = Integer.parseInt(jTextFieldCodigo.getText());
+        autocompletarNombreEmpleado(codigoEmpleado);
+        
+    }//GEN-LAST:event_jTextFieldCodigoActionPerformed
 
     private void jComboxTurnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboxTurnosActionPerformed
         
@@ -626,6 +658,18 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
     private void jComboxAreasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboxAreasActionPerformed
         cargarMaquinas();
     }//GEN-LAST:event_jComboxAreasActionPerformed
+
+    private void jTextFieldNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNombreActionPerformed
+        EmpleadoControlador emp = new EmpleadoControlador();
+        try {
+            int codigoEmpleado = Integer.parseInt(jTextFieldCodigo.getText());
+            Empleado e = emp.obtenerNombreCompleto(codigoEmpleado);
+            String nombreCompleto = e.getNombreEmpleado() + " " + e.getApellidoEmpleado();
+            jTextFieldNombre.setText(nombreCompleto);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Por favor ingresa un código válido");
+        }
+    }//GEN-LAST:event_jTextFieldNombreActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField IDText;
@@ -653,8 +697,8 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextFieldCodigo;
+    private javax.swing.JTextField jTextFieldNombre;
     private javax.swing.JLabel lblAreaCronAdddEmpl;
     private javax.swing.JLabel lblCodCronograma;
     private javax.swing.JLabel lblCodEmplCronAdddEmpl;
