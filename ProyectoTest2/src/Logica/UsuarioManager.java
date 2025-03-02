@@ -19,6 +19,7 @@ public class UsuarioManager {
             if (rs.next()) {
                 String tipo = rs.getString("tipo");
                 JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso como " + tipo);
+                ConexionBD.cerrarConexion(conn);
             } else {
                 JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
             }
