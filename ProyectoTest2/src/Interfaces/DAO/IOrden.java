@@ -19,4 +19,5 @@ public interface IOrden {
     public boolean editarOrden(Orden orden);
     public Orden obtenerOrdenPorId(Integer idOrden);
     public void obtenerNumeroOrden(JTextField txtOrden);
+    public boolean eliminarOrdenPorId(Integer id);
 }

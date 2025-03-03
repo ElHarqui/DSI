@@ -7,13 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductoDAO implements IProducto{
-    private Connection conexion;
+    private final Connection conexion=ConexionBD.obtenerConexion();
 
     @Override
     public List<Producto> listarProductos() {
-        if (this.conexion == null) {
-            this.conexion = ConexionBD.obtenerConexion();
-        }
         List<Producto> productos = new ArrayList<>();
         try (Statement stmt = this.conexion.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM producto")) {
@@ -105,9 +102,6 @@ public class ProductoDAO implements IProducto{
 
     @Override
     public List<Producto> encontrarProductosPorIdCliente(Integer idCliente) {
-        if (this.conexion == null) {
-            this.conexion = ConexionBD.obtenerConexion();
-        }
         List<Producto> productos = new ArrayList<>();
         String sql = "SELECT * FROM producto WHERE idCliente=?";
 
@@ -129,6 +123,42 @@ public class ProductoDAO implements IProducto{
         }
 
         return productos;
+    }
+
+    @Override
+    public Integer obtenerIdClientePorIdProducto(Integer id) {
+        String sql = "SELECT producto.idCliente FROM producto WHERE producto.idProducto = ?";
+
+        try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+            stmt.setInt(1,id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("idCliente"); // Retorna el ID del cliente encontrado
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null; // Retorna null si no hay coincidencias
+    }
+
+    @Override
+    public Integer obtenerIdProductoPorNombre(String nombre) {
+        String sql = "SELECT producto.idProducto FROM producto WHERE producto.nombre = ? LIMIT 1";
+
+        try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+            stmt.setString(1, nombre);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("idProducto"); // Devuelve el ID del producto encontrado
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null; // Retorna null si no hay coincidencias
     }
 
 

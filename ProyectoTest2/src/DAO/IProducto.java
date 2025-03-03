@@ -11,4 +11,6 @@ public interface IProducto {
     public Producto obtenerProductoPorId(Integer id);
     public boolean eliminarProductoPorId(Integer id);
     public List<Producto> encontrarProductosPorIdCliente(Integer idCliente);
+    public Integer obtenerIdClientePorIdProducto(Integer id);
+    public Integer obtenerIdProductoPorNombre(String nombre);
 }

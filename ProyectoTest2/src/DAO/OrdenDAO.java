@@ -22,7 +22,7 @@ import javax.swing.JTextField;
  */
 public class OrdenDAO implements IOrden {
 
-    private Connection conexion;
+    private Connection conexion=ConexionBD.obtenerConexion();
 
     @Override
     public List<Orden> listarOrdenes() {
@@ -79,6 +79,32 @@ public class OrdenDAO implements IOrden {
 
     @Override
     public boolean editarOrden(Orden orden) {
+        if (orden.getIdOrden() == null) {
+            System.err.println("Error: El ID de la orden es NULL");
+            return false;
+        }
+
+        String sql = "UPDATE orden SET idOrden = ?, fechaInicio = ?, fechaAcabado = ?, idProducto = ? WHERE idOrden = ?";
+
+        try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+            stmt.setInt(1, orden.getIdOrden());
+            stmt.setDate(2, java.sql.Date.valueOf(orden.getFechaInicio()));
+            stmt.setDate(3, java.sql.Date.valueOf(orden.getFechaTermino()));
+            stmt.setInt(4, orden.getIdProducto());
+            stmt.setInt(5, orden.getIdOrden()); // Establecer el parámetro faltante
+
+            // Depuración
+            System.out.println("Ejecutando SQL: " + sql);
+            System.out.println("Valores: ID=" + orden.getIdOrden() +
+                    ", FechaInicio=" + orden.getFechaInicio() +
+                    ", FechaAcabado=" + orden.getFechaTermino() +
+                    ", IDProducto=" + orden.getIdProducto());
+
+            int filasActualizadas = stmt.executeUpdate();
+            return filasActualizadas > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
@@ -111,12 +137,33 @@ public class OrdenDAO implements IOrden {
         }
     }
 
-    public static void main(String[] args) {
-        Orden ord = new Orden(1,LocalDate.now(), LocalDate.now(),1);
-        OrdenDAO ordenDAO = new OrdenDAO();
-        if(ordenDAO.agregarOrden(ord))
-            System.out.println("Se agrego correctamente");
-        else
-            System.out.println("GG report falla");
+    @Override
+    public boolean eliminarOrdenPorId(Integer id) {
+        String sql = "DELETE FROM orden WHERE idOrden = ?";
+
+        if (id == null) {
+            System.out.println("Error: El ID de la orden es null.");
+            return false;
+        }
+
+        try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            int filasEliminadas = stmt.executeUpdate();
+            return filasEliminadas > 0; // True si se eliminó correctamente
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false; // Retorna false si hubo un error
     }
-}
+    }
+
+//    public static void main(String[] args) {
+//        Orden ord = new Orden(1,LocalDate.now(), LocalDate.now(),1);
+//        OrdenDAO ordenDAO = new OrdenDAO();
+//        if(ordenDAO.agregarOrden(ord))
+//            System.out.println("Se agrego correctamente");
+//        else
+//            System.out.println("GG report falla");
+//    }
+

@@ -32,6 +32,7 @@ public class Orden {
         this.idProducto=idProducto;
     }
 
+
     public Integer getIdOrden() {
         return idOrden;
     }
@@ -71,5 +72,15 @@ public class Orden {
     public void setNombreProducto(String nombreProducto) {
         this.nombreProducto = nombreProducto;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Orden{" +
+                "idOrden=" + idOrden +
+                ", fechaInicio=" + fechaInicio +
+                ", fechaTermino=" + fechaTermino +
+                ", idProducto=" + idProducto +
+                ", nombreProducto='" + nombreProducto + '\'' +
+                '}';
+    }
 }

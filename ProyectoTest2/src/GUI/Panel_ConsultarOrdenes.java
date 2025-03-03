@@ -6,6 +6,7 @@ package GUI;
 
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -13,11 +14,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import Beans.Cliente;
 import Beans.Orden;
 import Beans.Producto;
 import DAO.ClienteDAO;
-import DAO.IProducto;
 import DAO.OrdenDAO;
 import DAO.ProductoDAO;
 import com.toedter.calendar.JDateChooser;
@@ -47,13 +46,14 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
 
     public void vaciarContenedores(){
         panelCrearOrdenes.setVisible(false);
+        panelModificarOrdenes.setVisible(false);
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         panelContenedorConslOrdenes = new javax.swing.JPanel();
-        panelCentralConslOrdenes = new javax.swing.JPanel();
+        panelCentralConslOrdenes = new PanelModificarOrdenes(orden);
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         panelOpcionesConslOrdenes = new javax.swing.JPanel();
@@ -68,9 +68,9 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         panelSupCentConslOrdenes = new javax.swing.JPanel();
         IDText = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        botonBuscar = new javax.swing.JButton();
         Orden = new javax.swing.JComboBox<>();
-        jButton2 = new javax.swing.JButton();
+        botonOrdenar = new javax.swing.JButton();
         panelCrearOrdenes = new javax.swing.JPanel();
         lblCodOrden = new javax.swing.JLabel();
         lblNameClienteCronCrea = new javax.swing.JLabel();
@@ -85,10 +85,12 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
         txtFieldFICrea = new javax.swing.JTextField();
         txtFieldFFCrea = new javax.swing.JTextField();
         btnGuardarCrear = new javax.swing.JButton();
+        btnActualizar = new javax.swing.JButton();
         lblCodCronograma = new javax.swing.JLabel();
         txtFieldCronogramaIdCrea = new javax.swing.JTextField();
         JComboBox<String> comboNomClientCrea;
         JComboBox<String> comboNomProdcCrea;
+        panelModificarOrdenes = new PanelModificarOrdenes(orden);
         int panelWidth = 840;
         int panelHeight = 560;
         int compWidth = 200;
@@ -125,6 +127,16 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+
+        jTable1.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting() && jTable1.getSelectedRow() != -1) {
+                panelContainerUpdateOrden.setEnabled(true);  // Habilitar botón si hay selección
+            } else {
+                panelContainerUpdateOrden.setEnabled(false); // Deshabilitar si no hay selección
+            }
+        });
+
+
         jScrollPane1.setViewportView(jTable1);
 
         panelCentralConslOrdenes.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 110, 680, 440));
@@ -174,15 +186,22 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
         jLabel6.setText("Modificar");
         panelContainerUpdateOrden.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 16, -1, -1));
 
+
+        panelContainerUpdateOrden.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                panelContainerUpdateOrdenMouseClicked(evt);
+            }
+        });
+
+
+
         panelOpcionesConslOrdenes.add(panelContainerUpdateOrden, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 150, 50));
 
         panelContainerDeleteOrden.setBackground(new java.awt.Color(165, 215, 33));
+
         panelContainerDeleteOrden.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                panelContainerDeleteOrdenMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                panelContainerDeleteOrdenMouseExited(evt);
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                panelCOntainerDeleteOrdenMouseClicked(evt);
             }
         });
         panelContainerDeleteOrden.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -215,11 +234,11 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
         });
         panelSupCentConslOrdenes.add(IDText, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 40, 210, -1));
 
-        jButton1.setBackground(new java.awt.Color(93, 135, 0));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/IMG/search.png"))); // NOI18N
-        jButton1.setBorder(null);
-        jButton1.setBorderPainted(false);
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+        botonBuscar.setBackground(new java.awt.Color(93, 135, 0));
+        botonBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/IMG/search.png"))); // NOI18N
+        botonBuscar.setBorder(null);
+        botonBuscar.setBorderPainted(false);
+        botonBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jButton1MouseEntered(evt);
             }
@@ -227,7 +246,7 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
                 jButton1MouseExited(evt);
             }
         });
-        panelSupCentConslOrdenes.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 20, -1, -1));
+        panelSupCentConslOrdenes.add(botonBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 20, -1, -1));
 
         Orden.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         Orden.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ordenar", "Menor a mayor", "Mayor a menor" }));
@@ -238,11 +257,11 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
         });
         panelSupCentConslOrdenes.add(Orden, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 40, 150, -1));
 
-        jButton2.setBackground(new java.awt.Color(93, 135, 0));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/IMG/sort.png"))); // NOI18N
-        jButton2.setBorder(null);
-        jButton2.setBorderPainted(false);
-        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+        botonOrdenar.setBackground(new java.awt.Color(93, 135, 0));
+        botonOrdenar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/IMG/sort.png"))); // NOI18N
+        botonOrdenar.setBorder(null);
+        botonOrdenar.setBorderPainted(false);
+        botonOrdenar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jButton2MouseEntered(evt);
             }
@@ -250,7 +269,7 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
                 jButton2MouseExited(evt);
             }
         });
-        panelSupCentConslOrdenes.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 20, 70, 70));
+        panelSupCentConslOrdenes.add(botonOrdenar, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 20, 70, 70));
 
         panelCentralConslOrdenes.add(panelSupCentConslOrdenes, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 840, 110));
 
@@ -267,10 +286,6 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
         lblCodOrden.setText("N° Orden");
         panelCrearOrdenes.add(lblCodOrden, new org.netbeans.lib.awtextra.AbsoluteConstraints(centerX, startY, -1, -1));
 
-// Etiqueta "N° Orden"
-        lblCodOrden.setFont(new java.awt.Font("Segoe UI", 1, 18));
-        lblCodOrden.setText("N° Orden");
-        panelCrearOrdenes.add(lblCodOrden, new org.netbeans.lib.awtextra.AbsoluteConstraints(centerX, startY, -1, -1));
 
 // Campo de número de orden
         txtFieldNumOrdenCrea.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -385,15 +400,18 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
             }
         });
         panelCrearOrdenes.add(btnGuardarCrear, new org.netbeans.lib.awtextra.AbsoluteConstraints(centerX, startY + 10 * stepY, 200, 40));
-
-//        lblCodCronograma.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-//        lblCodCronograma.setText("N° Cronograma");
-//        panelCrearOrdenes.add(lblCodCronograma, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
-//        panelCrearOrdenes.add(txtFieldCronogramaIdCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 10, 130, 50));
-
         panelContenedorConslOrdenes.add(panelCrearOrdenes, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        panelContenedorConslOrdenes.add(panelModificarOrdenes,new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
         add(panelContenedorConslOrdenes, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+
     }// </editor-fold>//GEN-END:initComponents
+
+
+
+
+
+
     private void cargarOrdenesEnTabla() {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0); // Limpiar la tabla antes de insertar nuevos datos
@@ -411,10 +429,35 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
     }
 
 
-    private void panelContainerCrearOrdenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelContainerCrearOrdenMouseClicked
+    private void panelContainerCrearOrdenMouseClicked(MouseEvent evt) {
         panelCentralConslOrdenes.setVisible(false);
+        panelModificarOrdenes.setVisible(false); // Oculta el otro panel
         panelCrearOrdenes.setVisible(true);
-    }//GEN-LAST:event_panelContainerCrearOrdenMouseClicked
+    }
+
+    private void panelContainerUpdateOrdenMouseClicked(MouseEvent evt) {
+        int filaSeleccionada = jTable1.getSelectedRow();
+
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione una orden para modificar.", "Error", JOptionPane.WARNING_MESSAGE);
+            return; // No permitir el acceso sin selección
+        }
+
+        // Obtener los datos de la orden seleccionada
+        String idOrden = jTable1.getValueAt(filaSeleccionada, 0).toString();
+        String producto = jTable1.getValueAt(filaSeleccionada, 1).toString();
+        String fechaInicio = jTable1.getValueAt(filaSeleccionada, 2).toString();
+        String fechaFin = jTable1.getValueAt(filaSeleccionada, 3).toString();
+
+        // Pasar los datos al panel de modificación
+        panelModificarOrdenes.setDatosOrden(idOrden, producto, fechaInicio, fechaFin);
+
+        // Ocultar el panel actual y mostrar el de modificación
+        panelCentralConslOrdenes.setVisible(false);
+        panelModificarOrdenes.setVisible(true);
+    }
+
+
 
     private void panelContainerCrearOrdenMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelContainerCrearOrdenMouseEntered
         panelContainerCrearOrden.setBackground(new Color(204,204,255));
@@ -432,17 +475,38 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
         panelContainerUpdateOrden.setBackground(new Color(153,153,255));
     }//GEN-LAST:event_panelContainerUpdateOrdenMouseExited
 
+    //al pasar el mouse
     private void panelContainerDeleteOrdenMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelContainerDeleteOrdenMouseEntered
         panelContainerDeleteOrden.setBackground(new Color(204,204,255));
     }//GEN-LAST:event_panelContainerDeleteOrdenMouseEntered
+
+    public void panelCOntainerDeleteOrdenMouseClicked(java.awt.event.MouseEvent evt){
+        OrdenDAO ordenDAO = new OrdenDAO();
+        int filaSeleccionada = jTable1.getSelectedRow();
+
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione una orden para modificar.", "Error", JOptionPane.WARNING_MESSAGE);
+            return; // No permitir el acceso sin selección
+        }
+
+        String idOrden = jTable1.getValueAt(filaSeleccionada, 0).toString();
+        if(ordenDAO.eliminarOrdenPorId(Integer.parseInt(idOrden))) {
+            JOptionPane.showMessageDialog(this, "Se elimino el registro correctamente.");
+            cargarOrdenesEnTabla();
+        }
+        else {
+            System.out.println("Error al eliminar");
+            JOptionPane.showMessageDialog(this, "Error al eliminar registro");
+        }
+    }
 
     private void panelContainerDeleteOrdenMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelContainerDeleteOrdenMouseExited
         panelContainerDeleteOrden.setBackground(new Color(153,153,255));
     }//GEN-LAST:event_panelContainerDeleteOrdenMouseExited
 
     private void IDTextMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_IDTextMouseClicked
-        // TODO add your handling code here:
-        IDText.setText(null);
+
+
     }//GEN-LAST:event_IDTextMouseClicked
 
     private void IDTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IDTextActionPerformed
@@ -450,11 +514,11 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
     }//GEN-LAST:event_IDTextActionPerformed
 
     private void jButton1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseEntered
-        jButton1.setBackground(new Color(204,204,255));
+        botonBuscar.setBackground(new Color(204,204,255));
     }//GEN-LAST:event_jButton1MouseEntered
 
     private void jButton1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseExited
-        jButton1.setBackground(new Color(102,102,255));
+        botonBuscar.setBackground(new Color(102,102,255));
     }//GEN-LAST:event_jButton1MouseExited
 
     private void OrdenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OrdenActionPerformed
@@ -488,11 +552,11 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
     }//GEN-LAST:event_OrdenActionPerformed
 
     private void jButton2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseEntered
-        jButton2.setBackground(new Color(204,204,255));
+        botonOrdenar.setBackground(new Color(204,204,255));
     }//GEN-LAST:event_jButton2MouseEntered
 
     private void jButton2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseExited
-        jButton2.setBackground(new Color(102,102,255));
+        botonOrdenar.setBackground(new Color(102,102,255));
     }//GEN-LAST:event_jButton2MouseExited
 
     private void btnGuardarCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarCrearActionPerformed
@@ -533,13 +597,17 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnGuardarCrearActionPerformed
 
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt){
+
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField IDText;
     private javax.swing.JComboBox<String> Orden;
     private javax.swing.JButton btnGuardarCrear;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnActualizar;
+    private javax.swing.JButton botonBuscar;
+    private javax.swing.JButton botonOrdenar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -570,5 +638,6 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
     private javax.swing.JTextField txtFieldNomClientCrea;
     private javax.swing.JTextField txtFieldNomProdcCrea;
     private javax.swing.JTextField txtFieldNumOrdenCrea;
+    private PanelModificarOrdenes panelModificarOrdenes;
     // End of variables declaration//GEN-END:variables
 }

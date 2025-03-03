@@ -3,22 +3,17 @@ package DAO;
 import Beans.Cliente;
 import Beans.Producto;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ClienteDAO implements ICliente{
 
-    private Connection conexion;
+    private final Connection conexion=ConexionBD.obtenerConexion();
+
 
     @Override
     public List<Cliente> listarClientes() {
-        if (this.conexion == null) {
-            this.conexion = ConexionBD.obtenerConexion();
-        }
         List<Cliente> clientes = new ArrayList<>();
         try (Statement stmt = this.conexion.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM cliente")) {
@@ -59,10 +54,49 @@ public class ClienteDAO implements ICliente{
         return false;
     }
 
+    @Override
+    public String obtenerNombreClientePorIdProducto(Integer id) {
 
-//    public static void main(String[] args) {
-//        ClienteDAO prueba = new ClienteDAO();
-//        for(var cliente:prueba.listarClientes())
-//            System.out.println(cliente);
-//    }
-}
+            String sql = "SELECT cliente.nombre FROM cliente " +
+                    "INNER JOIN producto ON producto.idCliente = cliente.idCliente LIMIT 1";
+
+            try (PreparedStatement stmt = conexion.prepareStatement(sql);
+                 ResultSet rs = stmt.executeQuery()) {
+
+                if (rs.next()) {
+                    return rs.getString("nombre"); // Retorna solo el primer nombre encontrado
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            return null; // Si no encuentra resultados, retorna null
+        }
+
+    @Override
+    public Integer obtenerIdPorNombre(String nombre) {
+        String sql = "SELECT idCliente FROM cliente WHERE nombre = ? LIMIT 1";
+
+        try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+            stmt.setString(1, nombre);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("idCliente"); // Devuelve el ID del cliente encontrado
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null; // Retorna null si no hay coincidencias
+    }
+
+    public static void main(String[] args) {
+        ClienteDAO prueba = new ClienteDAO();
+        System.out.println(prueba.obtenerNombreClientePorIdProducto(1));
+    }
+    }
+
+
+

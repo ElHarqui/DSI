@@ -11,4 +11,6 @@ public interface ICliente {
     public boolean editarCliente(Cliente cliente);
     public Producto encontrarProductoPorId(Integer id);
     public boolean eliminarProductoPorId(Integer id);
+    public String obtenerNombreClientePorIdProducto(Integer id);
+    public Integer obtenerIdPorNombre(String nombre);
 }
