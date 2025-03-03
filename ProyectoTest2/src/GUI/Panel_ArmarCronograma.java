@@ -451,6 +451,8 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         panelCrearCronAddEmple.add(jDateChooserFechaAsignacionCrearCrono, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 380, 180, 30));
 
         panelUpdateCrono.setBackground(new java.awt.Color(247, 191, 216));
+        panelUpdateCrono.setMinimumSize(new java.awt.Dimension(0, 0));
+        panelUpdateCrono.setPreferredSize(new java.awt.Dimension(840, 560));
         panelUpdateCrono.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblCodOrden1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -539,8 +541,7 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         panelUpdateCrono.add(btnAgregarEmpleCron2, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 140, 120, 40));
 
         panelListarCrono.setBackground(new java.awt.Color(204, 255, 204));
-        panelListarCrono.setAlignmentX(0.5F);
-        panelListarCrono.setAlignmentY(0.5F);
+        panelListarCrono.setMinimumSize(new java.awt.Dimension(0, 0));
         panelListarCrono.setPreferredSize(new java.awt.Dimension(840, 560));
         panelListarCrono.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -635,7 +636,7 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         });
         panelSupCentArmarCron2.add(IDText2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 40, 210, -1));
 
-        jButton9.setBackground(new java.awt.Color(102, 102, 255));
+        jButton9.setBackground(new java.awt.Color(0, 204, 153));
         jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/IMG/search.png"))); // NOI18N
         jButton9.setBorder(null);
         jButton9.setBorderPainted(false);
@@ -658,7 +659,7 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         });
         panelSupCentArmarCron2.add(Orden2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 40, 150, -1));
 
-        jButton10.setBackground(new java.awt.Color(102, 102, 255));
+        jButton10.setBackground(new java.awt.Color(0, 204, 153));
         jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/IMG/sort.png"))); // NOI18N
         jButton10.setBorder(null);
         jButton10.setBorderPainted(false);
@@ -697,12 +698,12 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
             .addGroup(panelContenedorArmarCronLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(panelContenedorArmarCronLayout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(panelUpdateCrono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panelUpdateCrono, javax.swing.GroupLayout.PREFERRED_SIZE, 840, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
             .addGroup(panelContenedorArmarCronLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelContenedorArmarCronLayout.createSequentialGroup()
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelListarCrono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panelListarCrono, javax.swing.GroupLayout.PREFERRED_SIZE, 840, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap()))
         );
         panelContenedorArmarCronLayout.setVerticalGroup(
@@ -726,12 +727,12 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
             .addGroup(panelContenedorArmarCronLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(panelContenedorArmarCronLayout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(panelUpdateCrono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panelUpdateCrono, javax.swing.GroupLayout.PREFERRED_SIZE, 560, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
             .addGroup(panelContenedorArmarCronLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelContenedorArmarCronLayout.createSequentialGroup()
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelListarCrono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panelListarCrono, javax.swing.GroupLayout.PREFERRED_SIZE, 560, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap()))
         );
 
@@ -862,7 +863,7 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
 
     private void btnAgregarEmpleCron2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarEmpleCron2ActionPerformed
         panelUpdateCrono.setVisible(false);
-        panelCrearCronAddEmple.setVisible(false);
+        panelCrearCronAddEmple.setVisible(true);
     }//GEN-LAST:event_btnAgregarEmpleCron2ActionPerformed
 
     private void panelContainerUpdateCron2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelContainerUpdateCron2MouseEntered
