@@ -42,5 +42,12 @@ public class Maquina {
     public void setIdArea(int idArea) {
         this.idArea = idArea;
     }
+
+    @Override
+    public String toString() {
+        return modelo;
+    }
+    
+    
     
 }
