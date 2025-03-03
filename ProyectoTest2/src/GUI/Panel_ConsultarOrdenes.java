@@ -5,6 +5,7 @@
 package GUI;
 
 import java.awt.Color;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -12,9 +13,7 @@ import java.awt.Color;
  */
 public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
 
-    /**
-     * Creates new form Panel_ConsultarOrdenes
-     */
+    private boolean indicadorZ = false;
     public Panel_ConsultarOrdenes() {
         initComponents();
         vaciarContenedores();
@@ -22,7 +21,9 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
 
     public void vaciarContenedores(){
         panelCrearOrdenes.setVisible(false);
+        panelUpdateOrdenes.setVisible(false);
     }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -43,25 +44,41 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         panelSupCentConslOrdenes = new javax.swing.JPanel();
         IDText = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        btnBuscarOrden = new javax.swing.JButton();
         Orden = new javax.swing.JComboBox<>();
-        jButton2 = new javax.swing.JButton();
+        btnFiltrarOrdenes = new javax.swing.JButton();
         panelCrearOrdenes = new javax.swing.JPanel();
         lblCodOrden = new javax.swing.JLabel();
         lblNameClienteCronCrea = new javax.swing.JLabel();
         lblNameProdcCronCrea = new javax.swing.JLabel();
         lblFechaInicioCronCrear = new javax.swing.JLabel();
         lblFechaFinCronCrear = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
         txtFieldNumOrdenCrea = new javax.swing.JTextField();
         txtFieldNomClientCrea = new javax.swing.JTextField();
         txtFieldNomProdcCrea = new javax.swing.JTextField();
         txtFieldFICrea = new javax.swing.JTextField();
         txtFieldFFCrea = new javax.swing.JTextField();
         btnGuardarCrear = new javax.swing.JButton();
-        lblCodCronograma = new javax.swing.JLabel();
-        txtFieldCronogramaIdCrea = new javax.swing.JTextField();
+        panelUpdateOrdenes = new javax.swing.JPanel();
+        lblCodOrden1 = new javax.swing.JLabel();
+        lblNameClienteCronCrea1 = new javax.swing.JLabel();
+        lblNameProdcCronCrea1 = new javax.swing.JLabel();
+        lblFechaInicioCronCrear1 = new javax.swing.JLabel();
+        lblFechaFinCronCrear1 = new javax.swing.JLabel();
+        scrollPaneUpdateCron = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
+        txtFieldNumOrdenCUpdate = new javax.swing.JTextField();
+        txtFieldNomClientUpdate = new javax.swing.JTextField();
+        txtFieldNomProdcUpdate = new javax.swing.JTextField();
+        btnGuardarUpdate = new javax.swing.JButton();
+        btnEliminarEmpleCronUpdate = new javax.swing.JButton();
+        lblCodCronograma1 = new javax.swing.JLabel();
+        txtFieldCronogramaIdUpdate = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jDateChooserFinalUpdate = new com.toedter.calendar.JDateChooser();
+        jDateChooserInicioUpdate = new com.toedter.calendar.JDateChooser();
+        btnAgregarEmpleCronUpdate = new javax.swing.JButton();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -124,6 +141,9 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
 
         panelContainerUpdateOrden.setBackground(new java.awt.Color(165, 215, 33));
         panelContainerUpdateOrden.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                panelContainerUpdateOrdenMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 panelContainerUpdateOrdenMouseEntered(evt);
             }
@@ -181,19 +201,19 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
         });
         panelSupCentConslOrdenes.add(IDText, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 40, 210, -1));
 
-        jButton1.setBackground(new java.awt.Color(93, 135, 0));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/IMG/search.png"))); // NOI18N
-        jButton1.setBorder(null);
-        jButton1.setBorderPainted(false);
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnBuscarOrden.setBackground(new java.awt.Color(93, 135, 0));
+        btnBuscarOrden.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/IMG/search.png"))); // NOI18N
+        btnBuscarOrden.setBorder(null);
+        btnBuscarOrden.setBorderPainted(false);
+        btnBuscarOrden.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jButton1MouseEntered(evt);
+                btnBuscarOrdenMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                jButton1MouseExited(evt);
+                btnBuscarOrdenMouseExited(evt);
             }
         });
-        panelSupCentConslOrdenes.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 20, -1, -1));
+        panelSupCentConslOrdenes.add(btnBuscarOrden, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 20, -1, -1));
 
         Orden.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         Orden.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ordenar", "Menor a mayor", "Mayor a menor" }));
@@ -204,19 +224,19 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
         });
         panelSupCentConslOrdenes.add(Orden, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 40, 150, -1));
 
-        jButton2.setBackground(new java.awt.Color(93, 135, 0));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/IMG/sort.png"))); // NOI18N
-        jButton2.setBorder(null);
-        jButton2.setBorderPainted(false);
-        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnFiltrarOrdenes.setBackground(new java.awt.Color(93, 135, 0));
+        btnFiltrarOrdenes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/IMG/sort.png"))); // NOI18N
+        btnFiltrarOrdenes.setBorder(null);
+        btnFiltrarOrdenes.setBorderPainted(false);
+        btnFiltrarOrdenes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jButton2MouseEntered(evt);
+                btnFiltrarOrdenesMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                jButton2MouseExited(evt);
+                btnFiltrarOrdenesMouseExited(evt);
             }
         });
-        panelSupCentConslOrdenes.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 20, 70, 70));
+        panelSupCentConslOrdenes.add(btnFiltrarOrdenes, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 20, 70, 70));
 
         panelCentralConslOrdenes.add(panelSupCentConslOrdenes, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 840, 110));
 
@@ -248,21 +268,6 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
         lblFechaFinCronCrear.setText("Fecha Final");
         panelCrearOrdenes.add(lblFechaFinCronCrear, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 210, 80, -1));
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "Nombre ", "Area", "Turno", "Maquina", "Fecha Asignacion"
-            }
-        ));
-        jScrollPane2.setViewportView(jTable2);
-
-        panelCrearOrdenes.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, 820, 250));
-
         txtFieldNumOrdenCrea.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         panelCrearOrdenes.add(txtFieldNumOrdenCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 10, 130, 50));
 
@@ -286,12 +291,99 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
         });
         panelCrearOrdenes.add(btnGuardarCrear, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 200, 180, 40));
 
-        lblCodCronograma.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblCodCronograma.setText("N° Cronograma");
-        panelCrearOrdenes.add(lblCodCronograma, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
-        panelCrearOrdenes.add(txtFieldCronogramaIdCrea, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 10, 130, 50));
-
         panelContenedorConslOrdenes.add(panelCrearOrdenes, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        panelUpdateOrdenes.setBackground(new java.awt.Color(247, 191, 216));
+        panelUpdateOrdenes.setMinimumSize(new java.awt.Dimension(0, 0));
+        panelUpdateOrdenes.setPreferredSize(new java.awt.Dimension(840, 560));
+        panelUpdateOrdenes.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblCodOrden1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblCodOrden1.setText("N° Orden");
+        panelUpdateOrdenes.add(lblCodOrden1, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 20, -1, -1));
+
+        lblNameClienteCronCrea1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblNameClienteCronCrea1.setText("Nombre Cliente");
+        panelUpdateOrdenes.add(lblNameClienteCronCrea1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 80, -1, -1));
+
+        lblNameProdcCronCrea1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblNameProdcCronCrea1.setText("Nombre Producto");
+        panelUpdateOrdenes.add(lblNameProdcCronCrea1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 130, 130, -1));
+
+        lblFechaInicioCronCrear1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblFechaInicioCronCrear1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblFechaInicioCronCrear1.setText("Fecha Inicio");
+        panelUpdateOrdenes.add(lblFechaInicioCronCrear1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 180, -1, -1));
+
+        lblFechaFinCronCrear1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblFechaFinCronCrear1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblFechaFinCronCrear1.setText("Fecha Final");
+        panelUpdateOrdenes.add(lblFechaFinCronCrear1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 230, 80, -1));
+
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Nombre ", "Area", "Turno", "Maquina", "Fecha Asignacion"
+            }
+        ));
+        scrollPaneUpdateCron.setViewportView(jTable3);
+
+        panelUpdateOrdenes.add(scrollPaneUpdateCron, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 300, 790, 240));
+
+        txtFieldNumOrdenCUpdate.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        panelUpdateOrdenes.add(txtFieldNumOrdenCUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 50, 130, 50));
+
+        txtFieldNomClientUpdate.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        panelUpdateOrdenes.add(txtFieldNomClientUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 80, 200, -1));
+
+        txtFieldNomProdcUpdate.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        panelUpdateOrdenes.add(txtFieldNomProdcUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 130, 200, -1));
+
+        btnGuardarUpdate.setText("Guardar");
+        btnGuardarUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarUpdateActionPerformed(evt);
+            }
+        });
+        panelUpdateOrdenes.add(btnGuardarUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 240, 120, 40));
+
+        btnEliminarEmpleCronUpdate.setText("Eliminar");
+        btnEliminarEmpleCronUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarEmpleCronUpdateActionPerformed(evt);
+            }
+        });
+        panelUpdateOrdenes.add(btnEliminarEmpleCronUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 190, 120, 40));
+
+        lblCodCronograma1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblCodCronograma1.setText("N° Cronograma");
+        panelUpdateOrdenes.add(lblCodCronograma1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
+        panelUpdateOrdenes.add(txtFieldCronogramaIdUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 130, 50));
+
+        jLabel11.setBackground(new java.awt.Color(247, 71, 128));
+        jLabel11.setOpaque(true);
+        panelUpdateOrdenes.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 0, 170, 120));
+
+        jLabel13.setBackground(new java.awt.Color(247, 71, 128));
+        jLabel13.setOpaque(true);
+        panelUpdateOrdenes.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 170, 120));
+        panelUpdateOrdenes.add(jDateChooserFinalUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 230, 130, -1));
+        panelUpdateOrdenes.add(jDateChooserInicioUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 180, 130, -1));
+
+        btnAgregarEmpleCronUpdate.setText("Agregar");
+        btnAgregarEmpleCronUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarEmpleCronUpdateActionPerformed(evt);
+            }
+        });
+        panelUpdateOrdenes.add(btnAgregarEmpleCronUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 140, 120, 40));
+
+        panelContenedorConslOrdenes.add(panelUpdateOrdenes, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         add(panelContenedorConslOrdenes, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
@@ -302,27 +394,27 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
     }//GEN-LAST:event_panelContainerCrearOrdenMouseClicked
 
     private void panelContainerCrearOrdenMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelContainerCrearOrdenMouseEntered
-        panelContainerCrearOrden.setBackground(new Color(204,204,255));
+        panelContainerCrearOrden.setBackground(new Color(214,250,140));
     }//GEN-LAST:event_panelContainerCrearOrdenMouseEntered
 
     private void panelContainerCrearOrdenMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelContainerCrearOrdenMouseExited
-        panelContainerCrearOrden.setBackground(new Color(153,153,255));
+        panelContainerCrearOrden.setBackground(new Color(165,215,33));
     }//GEN-LAST:event_panelContainerCrearOrdenMouseExited
 
     private void panelContainerUpdateOrdenMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelContainerUpdateOrdenMouseEntered
-        panelContainerUpdateOrden.setBackground(new Color(204,204,255));
+        panelContainerUpdateOrden.setBackground(new Color(214,250,140));
     }//GEN-LAST:event_panelContainerUpdateOrdenMouseEntered
 
     private void panelContainerUpdateOrdenMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelContainerUpdateOrdenMouseExited
-        panelContainerUpdateOrden.setBackground(new Color(153,153,255));
+        panelContainerUpdateOrden.setBackground(new Color(165,215,33));
     }//GEN-LAST:event_panelContainerUpdateOrdenMouseExited
 
     private void panelContainerDeleteOrdenMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelContainerDeleteOrdenMouseEntered
-        panelContainerDeleteOrden.setBackground(new Color(204,204,255));
+        panelContainerDeleteOrden.setBackground(new Color(214,250,140));
     }//GEN-LAST:event_panelContainerDeleteOrdenMouseEntered
 
     private void panelContainerDeleteOrdenMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelContainerDeleteOrdenMouseExited
-        panelContainerDeleteOrden.setBackground(new Color(153,153,255));
+        panelContainerDeleteOrden.setBackground(new Color(165,215,33));
     }//GEN-LAST:event_panelContainerDeleteOrdenMouseExited
 
     private void IDTextMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_IDTextMouseClicked
@@ -334,13 +426,13 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_IDTextActionPerformed
 
-    private void jButton1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseEntered
-        jButton1.setBackground(new Color(204,204,255));
-    }//GEN-LAST:event_jButton1MouseEntered
+    private void btnBuscarOrdenMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarOrdenMouseEntered
+        btnBuscarOrden.setBackground(new Color(214,250,140));
+    }//GEN-LAST:event_btnBuscarOrdenMouseEntered
 
-    private void jButton1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseExited
-        jButton1.setBackground(new Color(102,102,255));
-    }//GEN-LAST:event_jButton1MouseExited
+    private void btnBuscarOrdenMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarOrdenMouseExited
+        btnBuscarOrden.setBackground(new Color(165,215,33));
+    }//GEN-LAST:event_btnBuscarOrdenMouseExited
 
     private void OrdenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OrdenActionPerformed
         /*if (Orden.getSelectedIndex() == 1){
@@ -372,41 +464,69 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
         }*/
     }//GEN-LAST:event_OrdenActionPerformed
 
-    private void jButton2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseEntered
-        jButton2.setBackground(new Color(204,204,255));
-    }//GEN-LAST:event_jButton2MouseEntered
+    private void btnFiltrarOrdenesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFiltrarOrdenesMouseEntered
+        btnFiltrarOrdenes.setBackground(new Color(204,204,255));
+    }//GEN-LAST:event_btnFiltrarOrdenesMouseEntered
 
-    private void jButton2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseExited
-        jButton2.setBackground(new Color(102,102,255));
-    }//GEN-LAST:event_jButton2MouseExited
+    private void btnFiltrarOrdenesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFiltrarOrdenesMouseExited
+        btnFiltrarOrdenes.setBackground(new Color(102,102,255));
+    }//GEN-LAST:event_btnFiltrarOrdenesMouseExited
 
     private void btnGuardarCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarCrearActionPerformed
 
     }//GEN-LAST:event_btnGuardarCrearActionPerformed
 
+    private void btnGuardarUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarUpdateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnGuardarUpdateActionPerformed
+
+    private void btnEliminarEmpleCronUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarEmpleCronUpdateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEliminarEmpleCronUpdateActionPerformed
+
+    private void btnAgregarEmpleCronUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarEmpleCronUpdateActionPerformed
+        panelUpdateOrdenes.setVisible(false);
+    }//GEN-LAST:event_btnAgregarEmpleCronUpdateActionPerformed
+
+    private void panelContainerUpdateOrdenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelContainerUpdateOrdenMouseClicked
+        panelCentralConslOrdenes.setVisible(false);
+        panelUpdateOrdenes.setVisible(true);
+    }//GEN-LAST:event_panelContainerUpdateOrdenMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField IDText;
     private javax.swing.JComboBox<String> Orden;
+    private javax.swing.JButton btnAgregarEmpleCronUpdate;
+    private javax.swing.JButton btnBuscarOrden;
+    private javax.swing.JButton btnEliminarEmpleCronUpdate;
+    private javax.swing.JButton btnFiltrarOrdenes;
     private javax.swing.JButton btnGuardarCrear;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnGuardarUpdate;
+    private com.toedter.calendar.JDateChooser jDateChooserFinalUpdate;
+    private com.toedter.calendar.JDateChooser jDateChooserInicioUpdate;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JLabel lblCodCronograma;
+    private javax.swing.JTable jTable3;
+    private javax.swing.JLabel lblCodCronograma1;
     private javax.swing.JLabel lblCodOrden;
+    private javax.swing.JLabel lblCodOrden1;
     private javax.swing.JLabel lblFechaFinCronCrear;
+    private javax.swing.JLabel lblFechaFinCronCrear1;
     private javax.swing.JLabel lblFechaInicioCronCrear;
+    private javax.swing.JLabel lblFechaInicioCronCrear1;
     private javax.swing.JLabel lblNameClienteCronCrea;
+    private javax.swing.JLabel lblNameClienteCronCrea1;
     private javax.swing.JLabel lblNameProdcCronCrea;
+    private javax.swing.JLabel lblNameProdcCronCrea1;
     private javax.swing.JPanel panelCentralConslOrdenes;
     private javax.swing.JPanel panelContainerCrearOrden;
     private javax.swing.JPanel panelContainerDeleteOrden;
@@ -415,11 +535,16 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
     private javax.swing.JPanel panelCrearOrdenes;
     private javax.swing.JPanel panelOpcionesConslOrdenes;
     private javax.swing.JPanel panelSupCentConslOrdenes;
-    private javax.swing.JTextField txtFieldCronogramaIdCrea;
+    private javax.swing.JPanel panelUpdateOrdenes;
+    private javax.swing.JScrollPane scrollPaneUpdateCron;
+    private javax.swing.JTextField txtFieldCronogramaIdUpdate;
     private javax.swing.JTextField txtFieldFFCrea;
     private javax.swing.JTextField txtFieldFICrea;
     private javax.swing.JTextField txtFieldNomClientCrea;
+    private javax.swing.JTextField txtFieldNomClientUpdate;
     private javax.swing.JTextField txtFieldNomProdcCrea;
+    private javax.swing.JTextField txtFieldNomProdcUpdate;
+    private javax.swing.JTextField txtFieldNumOrdenCUpdate;
     private javax.swing.JTextField txtFieldNumOrdenCrea;
     // End of variables declaration//GEN-END:variables
 }
