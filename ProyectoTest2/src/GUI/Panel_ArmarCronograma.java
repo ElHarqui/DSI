@@ -6,19 +6,19 @@ package GUI;
 
 import java.awt.Color;
 import com.toedter.calendar.JDateChooser;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
-
-/**
- *
- * @author Usuario
- */
 public class Panel_ArmarCronograma extends javax.swing.JPanel {
     
     public boolean indicadorZ = false;
+    private  DefaultTableModel dtm;
+    private Object[] o  = new Object[3];
     
     public Panel_ArmarCronograma() {
         initComponents();
         vaciarContenedores();
+        dtm = (DefaultTableModel) tableOrdenes.getModel();
     }
 
     public void vaciarContenedores(){
@@ -33,7 +33,7 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         panelContenedorArmarCron = new javax.swing.JPanel();
         panelCentralArmarCrono = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableOrdenes = new javax.swing.JTable();
         panelOpcionesArmarCron = new javax.swing.JPanel();
         panelContainerCrearCron = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -127,7 +127,7 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         panelCentralArmarCrono.setPreferredSize(new java.awt.Dimension(840, 560));
         panelCentralArmarCrono.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableOrdenes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -146,7 +146,7 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tableOrdenes);
 
         panelCentralArmarCrono.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 110, 680, 440));
 
@@ -758,9 +758,13 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
     }//GEN-LAST:event_OrdenActionPerformed
 
     private void panelContainerCrearCronMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelContainerCrearCronMouseClicked
+        if(tableOrdenes.getSelectedRow() ==  -1){
+            JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna orden", "Error al crear cronograma. No ha seleccionado una orden a programar", ERROR);
+        }else{
         panelCentralArmarCrono.setVisible(false);
-        panelCrearCrono.setVisible(true);
-        indicadorZ = true;
+            panelCrearCrono.setVisible(true);
+            indicadorZ = true;
+        }
     }//GEN-LAST:event_panelContainerCrearCronMouseClicked
 
     private void jButton1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseEntered
@@ -912,7 +916,6 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane7;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable7;
@@ -950,6 +953,7 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
     private javax.swing.JPanel panelSupCentArmarCron;
     private javax.swing.JPanel panelSupCentArmarCron2;
     private javax.swing.JPanel panelUpdateCrono;
+    private javax.swing.JTable tableOrdenes;
     private javax.swing.JTextField txtFieldCronogramaIdCrea;
     private javax.swing.JTextField txtFieldCronogramaIdUpdate;
     private javax.swing.JTextField txtFieldNomClientCrea;
