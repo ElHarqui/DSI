@@ -4,10 +4,7 @@ import Beans.Producto;
 import Beans.Requerimiento;
 import Interfaces.DAO.IRequerimientos;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -37,6 +34,33 @@ public class RequerimientoDAO implements IRequerimientos {
             System.err.println("Error al listar requerimientos: " + e.getMessage());
         }
         return requerimientos;
+    }
+
+    @Override
+    public void crearRequerimiento(Integer idOrden) {
+        String sql = "INSERT INTO requerimientos (nombre, descripcion, idOrden) " +
+                "SELECT CONCAT(' - ', c.nombre, ' - ', p.nombre), " +
+                "'Generado automáticamente', ? " +
+                "FROM orden o " +
+                "JOIN producto p ON o.idProducto = p.idProducto " +
+                "JOIN cliente c ON p.idCliente = c.idCliente " +
+                "WHERE o.idOrden = ?";
+
+        try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+
+            stmt.setInt(1, idOrden);
+            stmt.setInt(2, idOrden);
+
+            int filasAfectadas = stmt.executeUpdate();
+            if (filasAfectadas > 0) {
+                System.out.println("✅ Requerimiento creado correctamente para la orden " + idOrden);
+            } else {
+                System.out.println("⚠ No se pudo crear el requerimiento para la orden " + idOrden);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("❌ Error al crear el requerimiento: " + e.getMessage());
+        }
     }
 
     public static void main(String[] args) {

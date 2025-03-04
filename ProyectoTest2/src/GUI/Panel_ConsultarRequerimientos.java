@@ -4,6 +4,19 @@
  */
 package GUI;
 
+import Beans.Requerimiento;
+import DAO.RequerimientoDAO;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import java.awt.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.List;
+
 /**
  *
  * @author Usuario
@@ -15,7 +28,10 @@ public class Panel_ConsultarRequerimientos extends javax.swing.JPanel {
      */
     public Panel_ConsultarRequerimientos() {
         initComponents();
+        cargarDatosEnTabla();
     }
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -26,19 +42,130 @@ public class Panel_ConsultarRequerimientos extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaReq = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+
+        jPanel1.setBackground(new java.awt.Color(102, 102, 255));
+        jPanel1.setForeground(new java.awt.Color(102, 102, 255));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        tablaReq.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Id", "Nombre", "Descripcion", "IdOrden"
+            }
+        ));
+        jScrollPane1.setViewportView(tablaReq);
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 70, -1, 330));
+
+        jButton1.setText("Consultar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 460, -1, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 840, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 560, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        int filaSeleccionada = tablaReq.getSelectedRow(); // Obtener la fila seleccionada
+
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Selecciona un registro para exportar.");
+            return;
+        }
+
+        TableModel modelo = tablaReq.getModel();
+
+        // Obtener los datos de la fila seleccionada
+        String id = modelo.getValueAt(filaSeleccionada, 0).toString();
+        String nombre = modelo.getValueAt(filaSeleccionada, 1).toString();
+        String descripcion = modelo.getValueAt(filaSeleccionada, 2).toString();
+        String idOrden = modelo.getValueAt(filaSeleccionada, 3).toString();
+
+        // Obtener la ruta de la carpeta "ReqTxt" dentro del proyecto
+        File carpeta = new File("ReqTxt");
+        if (!carpeta.exists()) {
+            boolean creada = carpeta.mkdirs();
+            if (!creada) {
+                JOptionPane.showMessageDialog(this, "❌ No se pudo crear la carpeta 'ReqTxt'.");
+                return;
+            }
+        }
+
+        // Crear el archivo dentro de la carpeta
+        File archivo = new File(carpeta, "Requerimiento_" + id + ".txt");
+
+        try (BufferedWriter escritor = new BufferedWriter(new FileWriter(archivo))) {
+            escritor.write("===== Registro " + id + " =====");
+            escritor.newLine();
+            escritor.write("ID: " + id);
+            escritor.newLine();
+            escritor.write("Nombre: " + nombre);
+            escritor.newLine();
+            escritor.write("Descripción: " + descripcion);
+            escritor.newLine();
+            escritor.write("IdOrden: " + idOrden);
+            escritor.newLine();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "❌ Error al guardar el archivo: " + e.getMessage());
+            return;
+        }
+
+        // Mostrar mensaje con la ruta exacta del archivo
+        String rutaCompleta = archivo.getAbsolutePath();
+        System.out.println("✅ Archivo guardado en: " + rutaCompleta);
+
+        // Abrir automáticamente el archivo .txt
+        try {
+            Desktop.getDesktop().open(archivo);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "❌ No se pudo abrir el archivo: " + e.getMessage());
+            System.err.println("❌ No se pudo abrir el archivo: " + e.getMessage());
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void cargarDatosEnTabla(){
+        RequerimientoDAO dao = new RequerimientoDAO();
+        List<Requerimiento> lista = dao.listarRequerimientos();
+
+        // Definir las columnas de la tabla
+        String[] columnas = {"Id", "Nombre", "Descripción", "IdOrden"};
+        DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
+
+        // Convertir objetos Requerimiento en filas para la tabla
+        for (Requerimiento req : lista) {
+            Object[] fila = { req.getId(), req.getNoombre(), req.getDescription(), req.getIdOrden() };
+            modelo.addRow(fila);
+        }
+
+        // Asignar el modelo a la tabla
+        tablaReq.setModel(modelo);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tablaReq;
     // End of variables declaration//GEN-END:variables
 }

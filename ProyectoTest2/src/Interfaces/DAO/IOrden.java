@@ -20,4 +20,5 @@ public interface IOrden {
     public Orden obtenerOrdenPorId(Integer idOrden);
     public void obtenerNumeroOrden(JTextField txtOrden);
     public boolean eliminarOrdenPorId(Integer id);
+    public Integer obtenerUltimoIdOrden();
 }

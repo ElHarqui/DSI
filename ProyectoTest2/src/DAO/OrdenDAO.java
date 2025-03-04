@@ -156,7 +156,27 @@ public class OrdenDAO implements IOrden {
 
         return false; // Retorna false si hubo un error
     }
+
+    @Override
+    public Integer obtenerUltimoIdOrden() {
+        int idOrden = -1;
+        String sql = "SELECT MAX(idOrden) FROM orden";
+
+        try (Connection conn = ConexionBD.obtenerConexion();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                idOrden = rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("❌ Error al obtener el último ID de orden: " + e.getMessage());
+        }
+
+        return idOrden;
     }
+}
 
 //    public static void main(String[] args) {
 //        Orden ord = new Orden(1,LocalDate.now(), LocalDate.now(),1);

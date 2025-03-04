@@ -252,7 +252,13 @@ public class Menu_PrincipalJP extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void panelContainerReqMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelContainerReqMouseClicked
-       
+        Panel_ConsultarRequerimientos pReq = new Panel_ConsultarRequerimientos();
+        pReq.setSize(830, 550);//Tamaño del panel
+        pReq.setLocation(5, 5);//Posición dentro del panel principal
+        PANEL_INTRO.removeAll();
+        PANEL_INTRO.add(pReq);
+        PANEL_INTRO.revalidate();
+        PANEL_INTRO.repaint();
     }//GEN-LAST:event_panelContainerReqMouseClicked
 
     private void panelContainerSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelContainerSalirMouseClicked

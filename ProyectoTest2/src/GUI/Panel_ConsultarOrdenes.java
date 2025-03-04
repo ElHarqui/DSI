@@ -16,9 +16,11 @@ import java.util.List;
 
 import Beans.Orden;
 import Beans.Producto;
+import Beans.Requerimiento;
 import DAO.ClienteDAO;
 import DAO.OrdenDAO;
 import DAO.ProductoDAO;
+import DAO.RequerimientoDAO;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
@@ -31,9 +33,11 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
     OrdenDAO ordenDAO = new OrdenDAO();
+    RequerimientoDAO requerimientoDAO = new RequerimientoDAO();
     private JDateChooser dateChooserFICrea;
     private JDateChooser dateChooserFFCrea;
     private Orden orden = new Orden();
+    private Requerimiento requerimiento = new Requerimiento();
 
     /**
      * Creates new form Panel_ConsultarOrdenes
@@ -592,9 +596,21 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
         // Guardar la orden
         if (ordenDAO.agregarOrden(orden)) {
             JOptionPane.showMessageDialog(null, "Orden guardada correctamente");
+
+            // Obtener el ID de la orden recién creada
+            int idOrden = ordenDAO.obtenerUltimoIdOrden();
+
+            if (idOrden != -1) {
+                // Crear el requerimiento asociado a la orden
+                requerimientoDAO.crearRequerimiento(idOrden);
+            } else {
+                JOptionPane.showMessageDialog(null, "⚠ No se pudo obtener el ID de la orden", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            }
         } else {
             JOptionPane.showMessageDialog(null, "Error al guardar la orden", "Error", JOptionPane.ERROR_MESSAGE);
         }
+
+
     }//GEN-LAST:event_btnGuardarCrearActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt){
