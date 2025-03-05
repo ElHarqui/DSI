@@ -4,8 +4,13 @@
  */
 package GUI;
 
+import DAO.ConexionBD;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javax.swing.JPanel;
@@ -16,15 +21,41 @@ import javax.swing.JPanel;
  */
 public class Menu_PrincipalJP extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Menu_Principal
-     */
-    public Menu_PrincipalJP() {
+    private int idEmpleado;
+    private String nombreEmpleado;
+    
+    public Menu_PrincipalJP(int idEmp) {
+        this.idEmpleado = idEmp;
+        nombreEmpleado = obtenerNombreJP(idEmpleado);
         initComponents();
+        Nombre.setText(nombreEmpleado);
         this.setLocationRelativeTo(null);
         TiempoReal();
     }
 
+    public static String obtenerNombreJP(int idEmpleado) {
+        String sql = "SELECT nombre, apellido FROM empleado WHERE idEmpleado = ?";
+        String nombreCompleto = "";
+
+        try {
+            Connection conn = ConexionBD.obtenerConexion();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, idEmpleado);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                String nombre = rs.getString("nombre");
+                String apellido = rs.getString("apellido");
+                nombreCompleto = nombre + " " + apellido; // Concatenamos nombre y apellido
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Error al obtener el nombre del empleado: " + ex.getMessage());
+        }
+
+        return nombreCompleto;
+    }
+    
     private void TiempoReal() {
         DateTimeFormatter formateador = DateTimeFormatter.ofPattern("HH:mm:ss");
         Runnable runnable = new Runnable() {
@@ -52,6 +83,7 @@ public class Menu_PrincipalJP extends javax.swing.JFrame {
         PANEL_INTRO.revalidate();
         PANEL_INTRO.repaint();
     }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
