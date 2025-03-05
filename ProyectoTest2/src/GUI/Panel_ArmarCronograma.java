@@ -46,7 +46,7 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         cargarAreas();
         cargaTurnos();
         cargarMaquinas();
-        cargarDatosEnJTable();
+        cargarTablaOrdenes();
     }
 
     private void vaciarContenedores(){
@@ -137,7 +137,7 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         comboBoxMaquinaCrono.removeAllItems();
     }
          
-     public void cargarDatosEnJTable() {
+     public void cargarTablaOrdenes() {
         Connection conn = ConexionBD.obtenerConexion();
         String consultaSQL = "SELECT o.idOrden AS 'N° Orden', " +
                              "c.nombre AS 'Cliente', " +
@@ -168,6 +168,38 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
 
         } catch (SQLException e) {
             e.printStackTrace(); // Para depuración, imprimir error en consola
+        }
+    }
+     
+     public void cargarTablaCronograma() {
+        DefaultTableModel modelo = (DefaultTableModel) tableCronogramas.getModel();
+        modelo.setRowCount(0);
+        String sql = "SELECT c.idCronograma, cl.nombre, p.nombre, o.fechaInicio, o.fechaAcabado " +
+                     "FROM cronograma c " +
+                     "JOIN orden o ON c.idOrden = o.idOrden " +
+                     "JOIN producto p ON o.idProducto = p.idProducto " +
+                     "JOIN cliente cl ON p.idCliente = cl.idCliente";
+
+        try (Connection conn = ConexionBD.obtenerConexion(); 
+             PreparedStatement pst = conn.prepareStatement(sql); 
+             ResultSet rs = pst.executeQuery()) {
+
+            while (rs.next()) {
+                Object[] fila = new Object[5];
+                fila[0] = rs.getInt(1);  // N° Cronograma
+                fila[1] = rs.getString(2);  // Cliente
+                fila[2] = rs.getString(3);  // Producto
+                fila[3] = rs.getDate(4);  // Fecha Inicio
+                fila[4] = rs.getDate(5);  // Fecha Final
+
+                modelo.addRow(fila);
+            }
+
+            tableCronogramas.setModel(modelo);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al cargar los cronogramas: " + e.getMessage());
         }
     }
      
@@ -374,7 +406,7 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         }
     }
     
-        public boolean validarCampos(String codigo, String nombre, JComboBox<Turno> turno, JComboBox<Area> area, JComboBox<Maquina> maquina, JDateChooser fechaAsignacion) {
+    public boolean validarCampos(String codigo, String nombre, JComboBox<Turno> turno, JComboBox<Area> area, JComboBox<Maquina> maquina, JDateChooser fechaAsignacion) {
         if (codigo == null || codigo.trim().isEmpty()) {
             System.out.println("Falta codigo");
             return false;
@@ -398,7 +430,77 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
     return true; // Todos los campos tienen valores válidos
     }
 
-    
+    public void autoContemplarCamposUdpateCronograma(int idCronograma) {
+        Connection conn = ConexionBD.obtenerConexion();
+        try {
+            // 1️⃣ CONSULTA PARA OBTENER LOS DATOS DE LA ORDEN ASOCIADA AL CRONOGRAMA
+            String sqlOrden = "SELECT o.idOrden, c.nombre AS Cliente, p.nombre AS Producto, " +
+                              "o.fechaInicio, o.fechaAcabado " +
+                              "FROM cronograma cr " +
+                              "JOIN orden o ON cr.idOrden = o.idOrden " +
+                              "JOIN producto p ON o.idProducto = p.idProducto " +
+                              "JOIN cliente c ON p.idCliente = c.idCliente " +
+                              "WHERE cr.idCronograma = ?";
+
+            PreparedStatement stmtOrden = conn.prepareStatement(sqlOrden);
+            stmtOrden.setInt(1, idCronograma);
+            ResultSet rsOrden = stmtOrden.executeQuery();
+
+            if (rsOrden.next()) {
+                txtFieldCronogramaIdUpdate.setText(String.valueOf(idCronograma));  // N° Cronograma
+                txtFieldNumOrdenCUpdate.setText(String.valueOf(rsOrden.getInt("idOrden")));  // N° Orden
+                txtFieldNomClientUpdate.setText(rsOrden.getString("Cliente"));  // Cliente
+                txtFieldNomProdcUpdate.setText(rsOrden.getString("Producto"));  // Producto
+                jDateChooserInicioUpdate.setDate(rsOrden.getDate("fechaInicio"));  // Fecha Inicio
+                jDateChooserFinalUpdate.setDate(rsOrden.getDate("fechaAcabado"));  // Fecha Final
+            }
+
+            // 2️⃣ CONSULTA PARA OBTENER LOS TURNOS ASIGNADOS ASOCIADOS AL CRONOGRAMA
+            String sqlTurnos = "SELECT e.nombre AS Nombre, a.nombre AS Area, " + 
+                               "t.nombre AS Turno, m.modelo AS Maquina, at.fechaAsignacion " +
+                               "FROM asignacionturno at " +
+                               "JOIN empleado e ON at.idEmpleado = e.idEmpleado " +
+                               "JOIN area a ON at.idArea = a.idArea " +
+                               "JOIN turno t ON at.idTurno = t.idTurno " +
+                               "JOIN maquina m ON at.idMaquina = m.idMaquina " +
+                               "WHERE at.idCronograma = ?";
+
+            PreparedStatement stmtTurnos = conn.prepareStatement(sqlTurnos);
+            stmtTurnos.setInt(1, idCronograma);
+            ResultSet rsTurnos = stmtTurnos.executeQuery();
+
+            // Vaciar la tabla antes de llenarla con nuevos datos
+            DefaultTableModel modelo = (DefaultTableModel) tableCronoUpdate.getModel();
+            modelo.setRowCount(0);
+
+            // Agregar cada resultado a la tabla
+            while (rsTurnos.next()) {
+                Object[] fila = new Object[5];
+                fila[0] = rsTurnos.getString("Nombre");  // Nombre del empleado
+                fila[1] = rsTurnos.getString("Area");  // Área
+                fila[2] = rsTurnos.getString("Turno");  // Turno
+                fila[3] = rsTurnos.getString("Maquina");  // Máquina
+                fila[4] = rsTurnos.getDate("fechaAsignacion");  // Fecha de Asignación
+
+                modelo.addRow(fila);
+            }
+
+            // Actualizar la tabla
+            tableCronoUpdate.setModel(modelo);
+            modelo.fireTableDataChanged();
+
+            // Cerrar recursos
+            stmtOrden.close();
+            rsOrden.close();
+            stmtTurnos.close();
+            rsTurnos.close();
+            conn.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al cargar datos: " + e.getMessage());
+        }
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -496,6 +598,11 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelContenedorArmarCron.setPreferredSize(new java.awt.Dimension(840, 560));
+        panelContenedorArmarCron.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                panelContenedorArmarCronMouseClicked(evt);
+            }
+        });
 
         panelCentralArmarCrono.setBackground(new java.awt.Color(204, 204, 255));
         panelCentralArmarCrono.setPreferredSize(new java.awt.Dimension(840, 560));
@@ -541,6 +648,15 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         panelOpcionesArmarCron.add(panelContainerCrearCron, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 150, 50));
 
         panelContainerListarCron.setBackground(new java.awt.Color(153, 153, 255));
+        panelContainerListarCron.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                panelContainerListarCronAncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
         panelContainerListarCron.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 panelContainerListarCronMouseClicked(evt);
@@ -838,10 +954,6 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
 
         tableCronoUpdate.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
             },
             new String [] {
                 "Nombre ", "Area", "Turno", "Maquina", "Fecha Asignacion"
@@ -852,12 +964,15 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         panelUpdateCrono.add(scrollPaneUpdateCron, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 300, 790, 240));
 
         txtFieldNumOrdenCUpdate.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtFieldNumOrdenCUpdate.setEnabled(false);
         panelUpdateCrono.add(txtFieldNumOrdenCUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 50, 130, 50));
 
         txtFieldNomClientUpdate.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtFieldNomClientUpdate.setEnabled(false);
         panelUpdateCrono.add(txtFieldNomClientUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 80, 200, -1));
 
         txtFieldNomProdcUpdate.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtFieldNomProdcUpdate.setEnabled(false);
         panelUpdateCrono.add(txtFieldNomProdcUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 130, 200, -1));
 
         btnGuardarUpdate.setText("Guardar");
@@ -879,6 +994,9 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         lblCodCronograma1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblCodCronograma1.setText("N° Cronograma");
         panelUpdateCrono.add(lblCodCronograma1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
+
+        txtFieldCronogramaIdUpdate.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtFieldCronogramaIdUpdate.setEnabled(false);
         panelUpdateCrono.add(txtFieldCronogramaIdUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 130, 50));
 
         jLabel11.setBackground(new java.awt.Color(247, 71, 128));
@@ -888,7 +1006,11 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         jLabel13.setBackground(new java.awt.Color(247, 71, 128));
         jLabel13.setOpaque(true);
         panelUpdateCrono.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 170, 120));
+
+        jDateChooserFinalUpdate.setEnabled(false);
         panelUpdateCrono.add(jDateChooserFinalUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 230, 130, -1));
+
+        jDateChooserInicioUpdate.setEnabled(false);
         panelUpdateCrono.add(jDateChooserInicioUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 180, 130, -1));
 
         btnAgregarEmpleCronUpdate.setText("Agregar");
@@ -909,18 +1031,13 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         panelListarCrono.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tableCronogramas.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
+            new Object [][] {},
             new String [] {
-                "N° Cronograma", "Producto", "Fecha inicio", "Fecha Final"
+                "N° Cronograma", "Cliente", "Producto", "Fecha inicio", "Fecha Final"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -1249,6 +1366,7 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
 
     private void panelContainerListarCronMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelContainerListarCronMouseClicked
         panelCentralArmarCrono.setVisible(false);
+        cargarTablaCronograma();
         panelListarCrono.setVisible(true);
     }//GEN-LAST:event_panelContainerListarCronMouseClicked
 
@@ -1257,8 +1375,11 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "No ha seleccionado ningun cronograma a modificar", "Error al crear cronograma. No ha seleccionado una orden a programar", ERROR);
         }else{
             panelListarCrono.setVisible(false);
+            int indexId = tableCronogramas.getSelectedRow();
+            int idTemp = (int) tableCronogramas.getValueAt(indexId, 0);
+            autoContemplarCamposUdpateCronograma(idTemp);
             panelUpdateCrono.setVisible(true);
-            indicadorZ = true;
+            indicadorZ = false;
         }
     }//GEN-LAST:event_panelContainerUpdateCronMouseClicked
 
@@ -1356,6 +1477,14 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
     private void comboBoxAreaCronoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxAreaCronoActionPerformed
         cargarMaquinas();
     }//GEN-LAST:event_comboBoxAreaCronoActionPerformed
+
+    private void panelContainerListarCronAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_panelContainerListarCronAncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_panelContainerListarCronAncestorAdded
+
+    private void panelContenedorArmarCronMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelContenedorArmarCronMouseClicked
+        
+    }//GEN-LAST:event_panelContenedorArmarCronMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
