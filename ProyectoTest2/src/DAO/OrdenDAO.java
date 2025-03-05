@@ -10,9 +10,8 @@ import Interfaces.DAO.IOrden;
 import java.sql.*;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.Date;
-import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -176,7 +175,38 @@ public class OrdenDAO implements IOrden {
 
         return idOrden;
     }
+
+    @Override
+    public Map<String, String> obtenerDatosOrden(Integer idOrden) {
+        String sql = "SELECT c.nombre, p.nombre, o.fechaInicio, o.fechaAcabado " +
+                "FROM orden o " +
+                "JOIN producto p ON o.idProducto = p.idProducto " +
+                "JOIN cliente c ON p.idCliente = c.idCliente " +
+                "WHERE o.idOrden = ?";
+
+        Map<String, String> datosExtras = new HashMap<>();
+
+        try (Connection conn = ConexionBD.obtenerConexion();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idOrden);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                datosExtras.put("nombreCliente", rs.getString("nombre"));
+                datosExtras.put("nombreProducto", rs.getString("nombre"));
+                datosExtras.put("fechaInicio", rs.getString("fechaInicio"));
+                datosExtras.put("fechaAcabado", rs.getString("fechaAcabado"));
+            }
+
+        } catch (SQLException e) {
+            System.err.println("❌ Error al obtener datos de la orden: " + e.getMessage());
+        }
+
+        return datosExtras;
+    }
 }
+
 
 //    public static void main(String[] args) {
 //        Orden ord = new Orden(1,LocalDate.now(), LocalDate.now(),1);

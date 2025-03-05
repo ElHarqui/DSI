@@ -5,6 +5,7 @@
 package GUI;
 
 import Beans.Requerimiento;
+import DAO.OrdenDAO;
 import DAO.RequerimientoDAO;
 
 import javax.swing.*;
@@ -16,6 +17,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -86,7 +88,7 @@ public class Panel_ConsultarRequerimientos extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
         int filaSeleccionada = tablaReq.getSelectedRow(); // Obtener la fila seleccionada
 
         if (filaSeleccionada == -1) {
@@ -96,29 +98,35 @@ public class Panel_ConsultarRequerimientos extends javax.swing.JPanel {
 
         TableModel modelo = tablaReq.getModel();
 
-        // Obtener los datos de la fila seleccionada
-        String id = modelo.getValueAt(filaSeleccionada, 0).toString();
+        // Obtener los datos de la fila seleccionada desde la JTable
+        String idReque = modelo.getValueAt(filaSeleccionada, 0).toString();
         String nombre = modelo.getValueAt(filaSeleccionada, 1).toString();
         String descripcion = modelo.getValueAt(filaSeleccionada, 2).toString();
-        String idOrden = modelo.getValueAt(filaSeleccionada, 3).toString();
+        int idOrden = Integer.parseInt(modelo.getValueAt(filaSeleccionada, 3).toString());
+
+        // Obtener datos adicionales de la orden
+        OrdenDAO ordenDAO = new OrdenDAO();
+        Map<String, String> datosExtras = ordenDAO.obtenerDatosOrden(idOrden);
+
+        if (datosExtras.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "❌ No se pudieron obtener los datos de la orden.");
+            return;
+        }
 
         // Obtener la ruta de la carpeta "ReqTxt" dentro del proyecto
         File carpeta = new File("ReqTxt");
-        if (!carpeta.exists()) {
-            boolean creada = carpeta.mkdirs();
-            if (!creada) {
-                JOptionPane.showMessageDialog(this, "❌ No se pudo crear la carpeta 'ReqTxt'.");
-                return;
-            }
+        if (!carpeta.exists() && !carpeta.mkdirs()) {
+            JOptionPane.showMessageDialog(this, "❌ No se pudo crear la carpeta 'ReqTxt'.");
+            return;
         }
 
         // Crear el archivo dentro de la carpeta
-        File archivo = new File(carpeta, "Requerimiento_" + id + ".txt");
+        File archivo = new File(carpeta, "Requerimiento_" + idReque + ".txt");
 
         try (BufferedWriter escritor = new BufferedWriter(new FileWriter(archivo))) {
-            escritor.write("===== Registro " + id + " =====");
+            escritor.write("===== Registro " + idReque + " =====");
             escritor.newLine();
-            escritor.write("ID: " + id);
+            escritor.write("ID: " + idReque);
             escritor.newLine();
             escritor.write("Nombre: " + nombre);
             escritor.newLine();
@@ -126,23 +134,29 @@ public class Panel_ConsultarRequerimientos extends javax.swing.JPanel {
             escritor.newLine();
             escritor.write("IdOrden: " + idOrden);
             escritor.newLine();
+            escritor.write("Cliente: " + datosExtras.get("nombreCliente"));
+            escritor.newLine();
+            escritor.write("Producto: " + datosExtras.get("nombreProducto"));
+            escritor.newLine();
+            escritor.write("Fecha de Inicio: " + datosExtras.get("fechaInicio"));
+            escritor.newLine();
+            escritor.write("Fecha de Acabado: " + datosExtras.get("fechaAcabado"));
+            escritor.newLine();
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, "❌ Error al guardar el archivo: " + e.getMessage());
             return;
         }
 
-        // Mostrar mensaje con la ruta exacta del archivo
-        String rutaCompleta = archivo.getAbsolutePath();
-        System.out.println("✅ Archivo guardado en: " + rutaCompleta);
+        JOptionPane.showMessageDialog(this, "✅ Archivo creado correctamente: " + archivo.getAbsolutePath());
 
         // Abrir automáticamente el archivo .txt
         try {
             Desktop.getDesktop().open(archivo);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, "❌ No se pudo abrir el archivo: " + e.getMessage());
-            System.err.println("❌ No se pudo abrir el archivo: " + e.getMessage());
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }
+
 
     private void cargarDatosEnTabla(){
         RequerimientoDAO dao = new RequerimientoDAO();

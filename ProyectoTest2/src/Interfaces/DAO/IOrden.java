@@ -8,6 +8,7 @@ import Beans.Orden;
 
 import javax.swing.JTextField;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -21,4 +22,5 @@ public interface IOrden {
     public void obtenerNumeroOrden(JTextField txtOrden);
     public boolean eliminarOrdenPorId(Integer id);
     public Integer obtenerUltimoIdOrden();
+    public Map<String, String> obtenerDatosOrden(Integer idOrden);
 }

@@ -1,0 +1,5 @@
+===== Registro 5 =====
+ID: 5
+Nombre: 
+Descripción: Generado automáticamente
+IdOrden: 15
