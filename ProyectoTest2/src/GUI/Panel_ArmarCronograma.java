@@ -314,7 +314,7 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         listaAsignacionTurnos.add(at);
     }
     
-    public void guardarAsignacionTurno() {
+    public void guardarListaAsignacionTurnoEnTablaAsignacionTurno() {
         Connection conn = ConexionBD.obtenerConexion();
         PreparedStatement stmt = null;
 
@@ -753,6 +753,11 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
 
         panelCrearCronAddEmple.add(comboBoxTurnoCrono, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 200, 180, 30));
 
+        comboBoxAreaCrono.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxAreaCronoActionPerformed(evt);
+            }
+        });
         panelCrearCronAddEmple.add(comboBoxAreaCrono, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 260, 180, 30));
 
         panelCrearCronAddEmple.add(comboBoxMaquinaCrono, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 320, 180, 30));
@@ -1215,7 +1220,8 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
     }//GEN-LAST:event_btnGuardarEmpleadoActionPerformed
 
     private void btnGuardarCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarCrearActionPerformed
-
+       guardarCronoOrden();
+       guardarListaAsignacionTurnoEnTablaAsignacionTurno();
     }//GEN-LAST:event_btnGuardarCrearActionPerformed
 
     private void btnAgregarEmpleCronActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarEmpleCronActionPerformed
@@ -1305,14 +1311,14 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton12MouseExited
 
     private void btnEliminarEmpleCronCreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarEmpleCronCreaActionPerformed
-       int SelectedRow = tableCronoUpdate.getSelectedRow();
+       int SelectedRow = tableCronoCrear.getSelectedRow();
         if (SelectedRow == -1) {
             return;   
         }
         
         listaEmpleados.remove(SelectedRow);
         listaAsignacionTurnos.remove(SelectedRow);
-        DefaultTableModel model = (DefaultTableModel) tableCronoUpdate.getModel();
+        DefaultTableModel model = (DefaultTableModel) tableCronoCrear.getModel();
         model.removeRow(SelectedRow);
         JOptionPane.showMessageDialog(null, "Empleado Eliminado", "Eliminacion Exitosa", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnEliminarEmpleCronCreaActionPerformed
@@ -1346,6 +1352,10 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         }
         panelCrearCrono.setVisible(true);
     }//GEN-LAST:event_btnRetornarActionPerformed
+
+    private void comboBoxAreaCronoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxAreaCronoActionPerformed
+        cargarMaquinas();
+    }//GEN-LAST:event_comboBoxAreaCronoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
