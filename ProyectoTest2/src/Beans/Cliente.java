@@ -1,50 +1,47 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Beans;
 
-/**
- *
- * @author quino
- */
+import java.util.Objects;
+
 public class Cliente {
-    private int idCliente;
-    private String nombreCliente;
-    private String correoCliente;
+    private Integer IdCliente;
+    private String nombre;
+    private String correo;
     private String telefono;
     private String codPais;
 
-    public Cliente(int idCliente, String nombreCliente, String correoCliente, String telefono, String codPais) {
-        this.idCliente = idCliente;
-        this.nombreCliente = nombreCliente;
-        this.correoCliente = correoCliente;
+    public Cliente() {
+    }
+
+    public Cliente(Integer idCliente, String nombre, String correo, String telefono, String codPais) {
+        this.IdCliente = idCliente;
+        this.nombre = nombre;
+        this.correo = correo;
         this.telefono = telefono;
         this.codPais = codPais;
     }
 
     public int getIdCliente() {
-        return idCliente;
+        return IdCliente;
     }
 
     public void setIdCliente(int idCliente) {
-        this.idCliente = idCliente;
+        IdCliente = idCliente;
     }
 
-    public String getNombreCliente() {
-        return nombreCliente;
+    public String getCorreo() {
+        return correo;
     }
 
-    public void setNombreCliente(String nombreCliente) {
-        this.nombreCliente = nombreCliente;
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 
-    public String getCorreoCliente() {
-        return correoCliente;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setCorreoCliente(String correoCliente) {
-        this.correoCliente = correoCliente;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getTelefono() {
@@ -62,6 +59,27 @@ public class Cliente {
     public void setCodPais(String codPais) {
         this.codPais = codPais;
     }
-    
-    
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Cliente cliente = (Cliente) o;
+        return IdCliente == cliente.IdCliente && Objects.equals(nombre, cliente.nombre) && Objects.equals(correo, cliente.correo) && Objects.equals(telefono, cliente.telefono) && Objects.equals(codPais, cliente.codPais);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(IdCliente, nombre, correo, telefono, codPais);
+    }
+
+    @Override
+    public String toString() {
+        return "Cliente{" +
+                "IdCliente=" + IdCliente +
+                ", nombre='" + nombre + '\'' +
+                ", correo='" + correo + '\'' +
+                ", telefono='" + telefono + '\'' +
+                ", codPais='" + codPais + '\'' +
+                '}';
+    }
 }

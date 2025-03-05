@@ -24,6 +24,13 @@ public class Empleado {
         this.apellidoEmpleado = apellidoEmpleado;
     }
 
+    public Empleado(int idEmpleado, String nombreEmpleado) {
+        this.idEmpleado = idEmpleado;
+        this.nombreEmpleado = nombreEmpleado;
+    }
+    
+    
+
     public int getIdEmpleado() {
         return idEmpleado;
     }
@@ -50,7 +57,7 @@ public class Empleado {
 
     @Override
     public String toString() {
-        return "Empleado{ nombreEmpleado=" + nombreEmpleado + ", apellidoEmpleado=" + apellidoEmpleado + '}';
+        return nombreEmpleado + " "+ apellidoEmpleado;
     }
     
 }

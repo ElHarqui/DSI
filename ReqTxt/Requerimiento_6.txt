@@ -1,0 +1,9 @@
+===== Registro 6 =====
+ID: 6
+Nombre:  - Nestl├® Per├║ - Cereal Cheerios
+Descripción: Generado automáticamente
+IdOrden: 16
+Cliente: Nestl├® Per├║
+Producto: Nestl├® Per├║
+Fecha de Inicio: 2025-03-03 00:00:00
+Fecha de Acabado: 2025-03-06 00:00:00

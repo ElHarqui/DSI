@@ -1,56 +1,76 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Beans;
 
-/**
- *
- * @author quino
- */
-public class Producto {
-    private int idProducto;
-    private String nombreProducto;
-    private String descripcionProducto;
-    private int idCliente;
+import java.util.Objects;
 
-    public Producto(int idProducto, String nombreProducto, String descripcionProducto, int idCliente) {
-        this.idProducto = idProducto;
-        this.nombreProducto = nombreProducto;
-        this.descripcionProducto = descripcionProducto;
-        this.idCliente = idCliente;
+public class Producto {
+    private Integer idProducto;
+    private String nombre;
+    private String descripcion;
+    private Integer idCliente;
+
+    public Producto(){
+
     }
 
-    public int getIdProducto() {
+    public Producto(Integer idProducto,String nombre,String descripcion, Integer idCliente){
+        this.idProducto = idProducto;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.idCliente = idCliente;
+
+    }
+
+    public Integer getIdProducto() {
         return idProducto;
     }
 
-    public void setIdProducto(int idProducto) {
+    public void setIdProducto(Integer idProducto) {
         this.idProducto = idProducto;
     }
 
-    public String getNombreProducto() {
-        return nombreProducto;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setNombreProducto(String nombreProducto) {
-        this.nombreProducto = nombreProducto;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public String getDescripcionProducto() {
-        return descripcionProducto;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setDescripcionProducto(String descripcionProducto) {
-        this.descripcionProducto = descripcionProducto;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
-    public int getIdCliente() {
+    public Integer getIdCliente() {
         return idCliente;
     }
 
-    public void setIdCliente(int idCliente) {
+    public void setIdCliente(Integer idCliente) {
         this.idCliente = idCliente;
     }
-    
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Producto producto = (Producto) o;
+        return Objects.equals(idProducto, producto.idProducto) && Objects.equals(nombre, producto.nombre) && Objects.equals(descripcion, producto.descripcion) && Objects.equals(idCliente, producto.idCliente);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idProducto, nombre, descripcion, idCliente);
+    }
+
+    @Override
+    public String toString() {
+        return "Producto{" +
+                "idProducto=" + idProducto +
+                ", nombre='" + nombre + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", idCliente=" + idCliente +
+                '}';
+    }
 }
