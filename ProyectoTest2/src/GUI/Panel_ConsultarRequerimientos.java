@@ -164,19 +164,20 @@ public class Panel_ConsultarRequerimientos extends javax.swing.JPanel {
         RequerimientoDAO dao = new RequerimientoDAO();
         List<Requerimiento> lista = dao.listarRequerimientos();
 
-        // Definir las columnas de la tabla
-        String[] columnas = {"Id", "Nombre"};
+        // 🔹 Definir correctamente las columnas de la tabla
+        String[] columnas = {"Id", "Nombre", "Descripción", "IdOrden"};  // Ahora hay 4 columnas
         DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
 
-        // Convertir objetos Requerimiento en filas para la tabla
+        // 🔹 Agregar los valores de cada requerimiento correctamente
         for (Requerimiento req : lista) {
             Object[] fila = { req.getId(), req.getNoombre(), req.getDescription(), req.getIdOrden() };
             modelo.addRow(fila);
         }
 
-        // Asignar el modelo a la tabla
+        // 🔹 Asignar el modelo corregido a la tabla
         tablaReq.setModel(modelo);
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
