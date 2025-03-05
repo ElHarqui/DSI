@@ -155,6 +155,8 @@ public class Panel_ConsultarRequerimientos extends javax.swing.JPanel {
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, "❌ No se pudo abrir el archivo: " + e.getMessage());
         }
+
+        cargarDatosEnTabla();
     }
 
 
