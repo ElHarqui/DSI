@@ -95,7 +95,7 @@ public class Pantalla_Inicio extends javax.swing.JFrame {
     private void BIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BIniciarActionPerformed
         // TODO add your handling code here:
         dispose();
-        Menu_PrincipalJP log = new Menu_PrincipalJP();
+        Panel_Login log = new Panel_Login();
         log.setVisible(true);
     }//GEN-LAST:event_BIniciarActionPerformed
 
