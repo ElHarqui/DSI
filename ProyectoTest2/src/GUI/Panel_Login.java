@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.swing.JFrame;
-
+import java.sql.Date;
 
 public class Panel_Login extends javax.swing.JFrame {
 
@@ -21,7 +21,40 @@ public class Panel_Login extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
     }
+    
+    public static void quickSort(ArrayList<String> lista, int bajo, int alto, boolean ascendente) {
+        if (bajo < alto) {
+            int pi = particion(lista, bajo, alto, ascendente);
+            quickSort(lista, bajo, pi - 1, ascendente);
+            quickSort(lista, pi + 1, alto, ascendente);
+        }
+    }
+    
+    private static int particion(ArrayList<String> lista, int bajo, int alto, boolean ascendente) {
+        Date pivote = lista.get(alto).getFechaAsignacion();
+        int i = bajo - 1;
 
+        for (int j = bajo; j < alto; j++) {
+            boolean condicion = ascendente ? 
+                lista.get(j).getFechaAsignacion().before(pivote) : 
+                lista.get(j).getFechaAsignacion().after(pivote);
+
+            if (condicion) {
+                i++;
+                intercambiar(lista, i, j);
+            }
+        }
+
+        intercambiar(lista, i + 1, alto);
+        return i + 1;
+    }
+
+    private static void intercambiar(ArrayList<String> lista, int i, int j) {
+        String temp = lista.get(i);
+        lista.set(i, lista.get(j));
+        lista.set(j, temp);
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -207,50 +240,6 @@ public class Panel_Login extends javax.swing.JFrame {
         } catch (SQLException ex) {
             System.out.println("Error SQL: " + ex.getMessage());
         }
-    
-        /*
-            String user = Username.getText();//Digite su ID de usuario
-            String pass = Contraseña.getText();//Digite su contraseña
-            
-            String sql = "Select username, password, rol, idEmpleado" + "from Usuarios where activo = 1 and username='"+user+"'";
-        
-        try {    
-            Connection conn = ConexionBD.obtenerConexion();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            
-            if(rs.next()){
-                String u = rs.getString("username");
-                String p = rs.getString("password");
-                String rol = rs.getString("rol");
-                int iE = rs.getInt("idEmpleado");
-                
-                if(pass.equals(p)){
-                    if(rol.equals("empleado")){
-                        Menu_PrincipalE menuE = new Menu_PrincipalE();
-                        this.setVisible(false);
-                        menuE.setVisible(true);
-                    }else if(rol.equals("jefeventas")){
-                        Menu_PrincipalJV menuJV = new Menu_PrincipalJV();
-                        this.setVisible(false);
-                        menuJV.setVisible(true);
-                    }else if(rol.equals("jefeproduccion")){
-                        Menu_PrincipalJP menuJP = new Menu_PrincipalJP();
-                        this.setVisible(false);
-                        menuJP.setVisible(true);
-                    }
-                }else{
-                    JOptionPane.showMessageDialog(this, "Contraseña o Nombre de Usuario incorrecta", "Error", JOptionPane.WARNING_MESSAGE);
-                }
-                
-            }else{
-                JOptionPane.showMessageDialog(this, "No existe el usuario en la BD", "Error", JOptionPane.WARNING_MESSAGE);
-            }
-        } catch (SQLException ex) {
-            System.out.println(ex.toString());
-        }
-        */
-        
     }//GEN-LAST:event_IngresarActionPerformed
 
     private void UsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UsernameActionPerformed

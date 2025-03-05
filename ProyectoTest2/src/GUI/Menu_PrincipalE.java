@@ -53,6 +53,7 @@ public class Menu_PrincipalE extends javax.swing.JFrame {
         return nombreCompleto;
     }
     
+    
     private void TiempoReal() {
         DateTimeFormatter formateador = DateTimeFormatter.ofPattern("HH:mm:ss");
         Runnable runnable = new Runnable() {
@@ -240,7 +241,7 @@ public class Menu_PrincipalE extends javax.swing.JFrame {
     }//GEN-LAST:event_panelContainerSalirMouseExited
 
     private void panelContainerCronoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelContainerCronoMouseClicked
-        Panel_CronogramaEmpleado pCronograma = new Panel_CronogramaEmpleado();
+        Panel_ListarCronogramasEmpleado pCronograma = new Panel_ListarCronogramasEmpleado(idEmpleado);
         CambiarPanel(pCronograma);
     }//GEN-LAST:event_panelContainerCronoMouseClicked
 

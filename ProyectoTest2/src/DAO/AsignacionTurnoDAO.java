@@ -16,35 +16,17 @@ import java.sql.SQLException;
 public class AsignacionTurnoDAO {
     private Connection conn = ConexionBD.obtenerConexion();
     
-    public ArrayList<AsignacionTurno> listaAsignacion = new ArrayList<>();
-    
-    /*public ArrayList<AsignacionTurno> listarActual(){
-        String sql = "SELECT * FROM pdf";
+    public ResultSet obtenerAsignacionesPorEmpleado(int idEmpleado) {
+        String query = "SELECT * FROM AsignacionTurno WHERE idEmpleado = ?";
         try {
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {                
-                
-            }
-            }
-        }catch (SQLException e){
-            System.out.println(e.getMessage());
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }finally {
-            try {
-                ps.close();
-                rs.close();
-                conn.desconectar();
-            }catch (Exception e){
-                System.out.println(e.getMessage());
-            }
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setInt(1, idEmpleado);
+            return stmt.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
         }
-        return listaAsignacion;
     }
     
-    public void LimpiarLista(){
-        listaAsignacion.clear();
-    }*/
 }
 

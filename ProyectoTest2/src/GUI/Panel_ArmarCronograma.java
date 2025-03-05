@@ -33,6 +33,7 @@ import javax.swing.SwingConstants;
 public class Panel_ArmarCronograma extends javax.swing.JPanel {
     private ArrayList<String[]> listaEmpleados = new ArrayList<>();
     private ArrayList<AsignacionTurno> listaAsignacionTurnos = new ArrayList<>();
+    private ArrayList<Object> listaCronogramas = new ArrayList<>();
     
     public boolean indicadorZ = false;
     private  DefaultTableModel dtm;
@@ -136,8 +137,9 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
     public void limpiarMaquinas(){
         comboBoxMaquinaCrono.removeAllItems();
     }
-         
-     public void cargarDatosEnJTable() {
+    
+    
+    public void cargarDatosEnJTable() {
         Connection conn = ConexionBD.obtenerConexion();
         String consultaSQL = "SELECT o.idOrden AS 'N° Orden', " +
                              "c.nombre AS 'Cliente', " +
@@ -162,8 +164,9 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
                 fila[2] = rs.getString("Producto");  // Nombre del producto
                 fila[3] = rs.getDate("Fecha inicio");  // Fecha de inicio
                 fila[4] = rs.getDate("Fecha Final");  // Fecha final
-
+                
                 modelo.addRow(fila); // Agregamos la fila al modelo
+                listaCronogramas.add(fila);
             }
 
         } catch (SQLException e) {
@@ -303,8 +306,7 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         Date fechaAsig = jDateChooserFechaAsignacionCrearCrono.getDate();
         Maquina m = (Maquina) comboBoxMaquinaCrono.getSelectedItem();
         int idCronograma = Integer.parseInt(txtFieldCronogramaIdCrea.getText());
-        AsignacionTurno at = new AsignacionTurno(
-                codigoEmpleado,
+        AsignacionTurno at = new AsignacionTurno(codigoEmpleado,
                 a.getIdArea(),
                 t.getIdTurno(),
                 fechaAsig,
@@ -923,6 +925,12 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
             }
         });
         scrollPanelCrono.setViewportView(tableCronogramas);
+        if (tableCronogramas.getColumnModel().getColumnCount() > 0) {
+            tableCronogramas.getColumnModel().getColumn(0).setHeaderValue("N° Cronograma");
+            tableCronogramas.getColumnModel().getColumn(1).setHeaderValue("Producto");
+            tableCronogramas.getColumnModel().getColumn(2).setHeaderValue("Fecha inicio");
+            tableCronogramas.getColumnModel().getColumn(3).setHeaderValue("Fecha Final");
+        }
 
         panelListarCrono.add(scrollPanelCrono, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 110, 680, 440));
 
@@ -1124,33 +1132,7 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
     }//GEN-LAST:event_IDTextActionPerformed
 
     private void OrdenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OrdenActionPerformed
-        /*if (Orden.getSelectedIndex() == 1){
-            try {
-                LlenarArrays();
-
-                ArrayList<Proveedor> Aux_P = new ArrayList<>(Lista_Proveedor);
-                VaciarArrays();
-                //  Ordenación por QuickSort
-                QuickSort(Aux_P, 0, Aux_P.size() - 1, 1);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Panel_Proveedor.class.getName()).log(Level.SEVERE, null, ex);
-                System.out.println("Error para QuickSortMenorMayor");
-            }
-        }
-        else{
-            try {
-                LlenarArrays();
-
-                ArrayList<Proveedor> Aux_P = new ArrayList<>(Lista_Proveedor);
-
-                VaciarArrays();
-                //  Ordenación por QuickSort
-                QuickSort(Aux_P, 0, Aux_P.size() - 1, 2);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Panel_Proveedor.class.getName()).log(Level.SEVERE, null, ex);
-                System.out.println("Error para QuickSortMayorMenor");
-            }
-        }*/
+        
     }//GEN-LAST:event_OrdenActionPerformed
 
     private void panelContainerCrearCronMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelContainerCrearCronMouseClicked
