@@ -4,8 +4,13 @@
  */
 package GUI;
 
+import DAO.ConexionBD;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javax.swing.JPanel;
@@ -16,15 +21,41 @@ import javax.swing.JPanel;
  */
 public class Menu_PrincipalJP extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Menu_Principal
-     */
-    public Menu_PrincipalJP() {
+    private int idEmpleado;
+    private String nombreEmpleado;
+    
+    public Menu_PrincipalJP(int idEmp) {
+        this.idEmpleado = idEmp;
+        nombreEmpleado = obtenerNombreJP(idEmpleado);
         initComponents();
+        Nombre.setText(nombreEmpleado);
         this.setLocationRelativeTo(null);
         TiempoReal();
     }
 
+    public static String obtenerNombreJP(int idEmpleado) {
+        String sql = "SELECT nombre, apellido FROM empleado WHERE idEmpleado = ?";
+        String nombreCompleto = "";
+
+        try {
+            Connection conn = ConexionBD.obtenerConexion();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, idEmpleado);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                String nombre = rs.getString("nombre");
+                String apellido = rs.getString("apellido");
+                nombreCompleto = nombre + " " + apellido; // Concatenamos nombre y apellido
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Error al obtener el nombre del empleado: " + ex.getMessage());
+        }
+
+        return nombreCompleto;
+    }
+    
     private void TiempoReal() {
         DateTimeFormatter formateador = DateTimeFormatter.ofPattern("HH:mm:ss");
         Runnable runnable = new Runnable() {
@@ -45,13 +76,14 @@ public class Menu_PrincipalJP extends javax.swing.JFrame {
     }
     
     public void CambiarPanel(JPanel panel){
-        panel.setSize(820,540);
+        panel.setSize(830, 550);
         panel.setLocation(5,5);
         PANEL_INTRO.removeAll();
         PANEL_INTRO.add(panel);
         PANEL_INTRO.revalidate();
         PANEL_INTRO.repaint();
     }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -279,12 +311,7 @@ public class Menu_PrincipalJP extends javax.swing.JFrame {
 
     private void panelContainerOrdenesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelContainerOrdenesMouseClicked
         Panel_ConsultarOrdenes pOrdenes = new Panel_ConsultarOrdenes();
-        pOrdenes.setSize(830, 550);//Tamaño del panel
-        pOrdenes.setLocation(5, 5);//Posición dentro del panel principal
-        PANEL_INTRO.removeAll();
-        PANEL_INTRO.add(pOrdenes);
-        PANEL_INTRO.revalidate();
-        PANEL_INTRO.repaint();
+        CambiarPanel(pOrdenes);
     }//GEN-LAST:event_panelContainerOrdenesMouseClicked
 
     private void panelContainerOrdenesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelContainerOrdenesMouseExited
@@ -293,12 +320,7 @@ public class Menu_PrincipalJP extends javax.swing.JFrame {
 
     private void panelContainerCronoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelContainerCronoMouseClicked
         Panel_ArmarCronograma pCronograma = new Panel_ArmarCronograma();
-        pCronograma.setSize(830, 550);//Tamaño del panel
-        pCronograma.setLocation(5, 5);//Posición dentro del panel principal
-        PANEL_INTRO.removeAll();
-        PANEL_INTRO.add(pCronograma);
-        PANEL_INTRO.revalidate();
-        PANEL_INTRO.repaint();
+        CambiarPanel(pCronograma);
     }//GEN-LAST:event_panelContainerCronoMouseClicked
 
     private void panelContainerCronoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelContainerCronoMouseEntered

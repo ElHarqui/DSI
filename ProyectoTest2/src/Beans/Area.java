@@ -32,5 +32,10 @@ public class Area {
     public void setNombreArea(String nombreArea) {
         this.nombreArea = nombreArea;
     }
+
+    @Override
+    public String toString() {
+        return this.getNombreArea();
+    }
     
 }
