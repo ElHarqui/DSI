@@ -254,7 +254,7 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         return totalRegistros+1;
     }
     
-    public void actualizarTablaEmpleados(){
+    public void actualizarTablaEmpleadosCronoCrear(){
         DefaultTableModel model = (DefaultTableModel) tableCronoCrear.getModel();
         model.setRowCount(0);
         for(String[] empleado : listaEmpleados){
@@ -262,7 +262,15 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         }
     }
     
-    public void listarAsignacionTurno(){
+    public void actualizarTablaEmpleadosCronoUpdate(){
+        DefaultTableModel model = (DefaultTableModel) tableCronoUpdate.getModel();
+        model.setRowCount(0);
+        for(String[] empleado : listaEmpleados){
+            model.addRow(empleado);
+        }
+    }
+    
+    public void listaAsignacionTurnoString(){
         String nombreEmpleado = txtFieldNomEmpleAdd.getText();
         String areaSeleccionada = comboBoxAreaCrono.getSelectedItem().toString();
         String turnoSeleccionado = comboBoxTurnoCrono.getSelectedItem().toString();
@@ -328,8 +336,8 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         }
     }
 
-    public void guardarAsignacionTurnoEnLista(){
-        int codigoEmpleado = Integer.parseInt(txtFieldCodigoEmplAdd.getText());
+    public void agregarFilaAListaAsignacionTurno(){
+        int codigoEmpleado = Integer.parseInt(jTextField1.getText());
         Area a = (Area) comboBoxAreaCrono.getSelectedItem();
         Turno t = (Turno) comboBoxTurnoCrono.getSelectedItem();
         Date fechaAsig = jDateChooserFechaAsignacionCrearCrono.getDate();
@@ -501,6 +509,49 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Error al cargar datos: " + e.getMessage());
         }
     }
+    
+    public void llenarListaAsignacionUpdCron(int idCronograma) {
+        Connection conn = ConexionBD.obtenerConexion();
+
+        try {
+            // Consulta para obtener los turnos asignados al cronograma
+            String sqlTurnos = "SELECT e.nombre AS Nombre, a.nombre AS Area, " + 
+                               "t.nombre AS Turno, m.modelo AS Maquina, at.fechaAsignacion " +
+                               "FROM asignacionturno at " +
+                               "JOIN empleado e ON at.idEmpleado = e.idEmpleado " +
+                               "JOIN area a ON at.idArea = a.idArea " +
+                               "JOIN turno t ON at.idTurno = t.idTurno " +
+                               "JOIN maquina m ON at.idMaquina = m.idMaquina " +
+                               "WHERE at.idCronograma = ?";
+
+            PreparedStatement stmtTurnos = conn.prepareStatement(sqlTurnos);
+            stmtTurnos.setInt(1, idCronograma);
+            ResultSet rsTurnos = stmtTurnos.executeQuery();
+
+
+            // Agregar cada resultado a la lista y tabla
+            while (rsTurnos.next()) {
+                String[] fila = new String[5];
+                fila[0] = rsTurnos.getString("Nombre");  // Nombre del empleado
+                fila[1] = rsTurnos.getString("Area");    // Área
+                fila[2] = rsTurnos.getString("Turno");   // Turno
+                fila[3] = rsTurnos.getString("Maquina"); // Máquina
+                fila[4] = rsTurnos.getDate("fechaAsignacion").toString();  // Fecha de Asignación (convertida a String)
+
+                listaEmpleados.add(fila); // Guardar en la lista
+            }
+
+            // Cerrar recursos
+            rsTurnos.close();
+            stmtTurnos.close();
+            conn.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al cargar datos: " + e.getMessage());
+        }
+    }
+        
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -548,7 +599,6 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         lblAreaCronAdddEmpl = new javax.swing.JLabel();
         lblNamMaquCronAdddEmpl = new javax.swing.JLabel();
         lblDateAsigCronAdddEmpl = new javax.swing.JLabel();
-        txtFieldCodigoEmplAdd = new javax.swing.JTextField();
         comboBoxTurnoCrono = new javax.swing.JComboBox<>();
         comboBoxAreaCrono = new javax.swing.JComboBox<>();
         comboBoxMaquinaCrono = new javax.swing.JComboBox<>();
@@ -559,6 +609,7 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         txtFieldNomEmpleAdd = new javax.swing.JTextField();
         jDateChooserFechaAsignacionCrearCrono = new com.toedter.calendar.JDateChooser();
         btnRetornar = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
         panelUpdateCrono = new javax.swing.JPanel();
         lblCodOrden1 = new javax.swing.JLabel();
         lblNameClienteCronCrea1 = new javax.swing.JLabel();
@@ -860,13 +911,6 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         lblDateAsigCronAdddEmpl.setText("Fecha Asignación");
         panelCrearCronAddEmple.add(lblDateAsigCronAdddEmpl, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 380, -1, -1));
 
-        txtFieldCodigoEmplAdd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFieldCodigoEmplAddActionPerformed(evt);
-            }
-        });
-        panelCrearCronAddEmple.add(txtFieldCodigoEmplAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 80, 180, 30));
-
         panelCrearCronAddEmple.add(comboBoxTurnoCrono, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 200, 180, 30));
 
         comboBoxAreaCrono.addActionListener(new java.awt.event.ActionListener() {
@@ -912,6 +956,12 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         jLabel10.setBackground(new java.awt.Color(255, 255, 204));
         jLabel10.setOpaque(true);
         panelCrearCronAddEmple.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 0, 580, 30));
+
+        txtFieldNomEmpleAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFieldNomEmpleAddActionPerformed(evt);
+            }
+        });
         panelCrearCronAddEmple.add(txtFieldNomEmpleAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 140, 180, 30));
         panelCrearCronAddEmple.add(jDateChooserFechaAsignacionCrearCrono, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 380, 180, 30));
 
@@ -924,6 +974,13 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
             }
         });
         panelCrearCronAddEmple.add(btnRetornar, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 460, -1, 60));
+
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+        panelCrearCronAddEmple.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 82, 180, 30));
 
         panelUpdateCrono.setBackground(new java.awt.Color(247, 191, 216));
         panelUpdateCrono.setMinimumSize(new java.awt.Dimension(0, 0));
@@ -1323,16 +1380,21 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
     }//GEN-LAST:event_btnGuardarEmpleadoMouseExited
 
     private void btnGuardarEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarEmpleadoActionPerformed
-        if(validarCampos(txtFieldCodigoEmplAdd.getText(), txtFieldNomEmpleAdd.getText(),
-                comboBoxTurnoCrono, comboBoxAreaCrono, comboBoxMaquinaCrono,
-                jDateChooserInicioUpdate)){
-            listarAsignacionTurno();
-            guardarAsignacionTurnoEnLista();
+        if(indicadorZ){
+            listaAsignacionTurnoString();
+          agregarFilaAListaAsignacionTurno();
             mostrarEmpleados(listaEmpleados);
-            actualizarComboBoxAreas(listaEmpleados, comboBoxAreaCrono);
+//            actualizarComboBoxAreas(listaEmpleados, comboBoxAreaCrono);     
         }else{
-            JOptionPane.showMessageDialog(this, "Por favor, llene todos los campos.", "Error", JOptionPane.WARNING_MESSAGE);
-        
+            /*
+            llena la listaEmpleados con los datos de tabla AsignacionTurno, ya que 
+            a estos les sumaremos los que añadiremos al momento de darle a GUARDAR en el
+            panelCrearCronAddEmple
+            */    
+            llenarListaAsignacionUpdCron(Integer.parseInt(txtFieldCronogramaIdUpdate.getText()));
+            listaAsignacionTurnoString();
+            mostrarEmpleados(listaEmpleados);
+//            agregarFilaAListaAsignacionTurno();
         }
     }//GEN-LAST:event_btnGuardarEmpleadoActionPerformed
 
@@ -1356,7 +1418,16 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
     }//GEN-LAST:event_btnGuardarUpdateActionPerformed
 
     private void btnEliminarEmpleCronUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarEmpleCronUpdateActionPerformed
-        // TODO add your handling code here:
+        int SelectedRow = tableCronoUpdate.getSelectedRow();
+        if (SelectedRow == -1) {
+            return;   
+        }
+        
+        listaEmpleados.remove(SelectedRow);
+//      listaAsignacionTurnos.remove(SelectedRow);
+        DefaultTableModel model = (DefaultTableModel) tableCronoUpdate.getModel();
+        model.removeRow(SelectedRow);
+        JOptionPane.showMessageDialog(null, "Empleado Eliminado", "Eliminacion Exitosa", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnEliminarEmpleCronUpdateActionPerformed
 
     private void btnAgregarEmpleCronUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarEmpleCronUpdateActionPerformed
@@ -1392,7 +1463,61 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
     }//GEN-LAST:event_panelContainerUpdateCronMouseExited
 
     private void panelContainerDeleteCronMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelContainerDeleteCronMouseClicked
-        // TODO add your handling code here:
+        
+        int filaSeleccionada = tableCronogramas.getSelectedRow();
+
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(null, "Seleccione un cronograma para eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Obtener el ID del cronograma seleccionado
+        int idCronograma = (int) tableCronogramas.getValueAt(filaSeleccionada, 0);
+
+        // Confirmación antes de eliminar
+        int confirmacion = JOptionPane.showConfirmDialog(null, "¿Estás seguro de eliminar el cronograma y sus asignaciones?", "Confirmación", JOptionPane.YES_NO_OPTION);
+
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            Connection conn = ConexionBD.obtenerConexion();
+            PreparedStatement stmtAsignaciones = null;
+            PreparedStatement stmtCronograma = null;
+
+            try {
+                // 1️⃣ Eliminar las asignaciones de turno asociadas al cronograma
+                String sqlEliminarAsignaciones = "DELETE FROM asignacionturno WHERE idCronograma = ?";
+                stmtAsignaciones = conn.prepareStatement(sqlEliminarAsignaciones);
+                stmtAsignaciones.setInt(1, idCronograma);
+                stmtAsignaciones.executeUpdate();
+
+                // 2️⃣ Eliminar el cronograma
+                String sqlEliminarCronograma = "DELETE FROM cronograma WHERE idCronograma = ?";
+                stmtCronograma = conn.prepareStatement(sqlEliminarCronograma);
+                stmtCronograma.setInt(1, idCronograma);
+                int filasAfectadas = stmtCronograma.executeUpdate();
+
+                if (filasAfectadas > 0) {
+                    JOptionPane.showMessageDialog(null, "Cronograma eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+                    // Eliminar visualmente la fila en jTable3
+                    DefaultTableModel modelo = (DefaultTableModel) tableCronogramas.getModel();
+                    modelo.removeRow(filaSeleccionada);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al eliminar el cronograma.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Error de base de datos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (stmtAsignaciones != null) stmtAsignaciones.close();
+                    if (stmtCronograma != null) stmtCronograma.close();
+                    if (conn != null) conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }//GEN-LAST:event_panelContainerDeleteCronMouseClicked
 
     private void panelContainerDeleteCronMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelContainerDeleteCronMouseEntered
@@ -1444,18 +1569,6 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(null, "Empleado Eliminado", "Eliminacion Exitosa", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnEliminarEmpleCronCreaActionPerformed
 
-    private void txtFieldCodigoEmplAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldCodigoEmplAddActionPerformed
-        EmpleadoDAO emp = new EmpleadoDAO();
-        try {
-            int codigoEmpleado = Integer.parseInt(txtFieldCodigoEmplAdd.getText());
-            Empleado e = emp.obtenerNombreEmpleado(codigoEmpleado);
-            String nombreCompleto = e.getNombreEmpleado() + " " + e.getApellidoEmpleado();
-            txtFieldNomEmpleAdd.setText(nombreCompleto);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Por favor ingresa un código válido");
-        }
-    }//GEN-LAST:event_txtFieldCodigoEmplAddActionPerformed
-
     private void btnAgregarEmpleCronUpdateMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgregarEmpleCronUpdateMouseEntered
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAgregarEmpleCronUpdateMouseEntered
@@ -1465,13 +1578,16 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
     }//GEN-LAST:event_btnGuardarEmpleadoMouseClicked
 
     private void btnRetornarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetornarActionPerformed
-        panelCrearCronAddEmple.setVisible(false);
-        actualizarTablaEmpleados();
-        if(listaEmpleados.isEmpty()){
+        if(indicadorZ){
+            panelCrearCronAddEmple.setVisible(false);
+            actualizarTablaEmpleadosCronoCrear();
+            panelCrearCrono.setVisible(true);
         }else{
-            btnEliminarEmpleCronCrea.setEnabled(true);
+            panelCrearCronAddEmple.setVisible(false);
+            actualizarTablaEmpleadosCronoUpdate();
+            panelUpdateCrono.setVisible(true);
         }
-        panelCrearCrono.setVisible(true);
+        
     }//GEN-LAST:event_btnRetornarActionPerformed
 
     private void comboBoxAreaCronoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxAreaCronoActionPerformed
@@ -1485,6 +1601,14 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
     private void panelContenedorArmarCronMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelContenedorArmarCronMouseClicked
         
     }//GEN-LAST:event_panelContenedorArmarCronMouseClicked
+
+    private void txtFieldNomEmpleAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldNomEmpleAddActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldNomEmpleAddActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        autocompletarNombreEmpleado(Integer.parseInt(jTextField1.getText()));
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1525,6 +1649,7 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lblAreaCronAdddEmpl;
     private javax.swing.JLabel lblCodCronograma;
     private javax.swing.JLabel lblCodCronograma1;
@@ -1565,7 +1690,6 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
     private javax.swing.JTable tableCronoUpdate;
     private javax.swing.JTable tableCronogramas;
     private javax.swing.JTable tableOrdenes;
-    private javax.swing.JTextField txtFieldCodigoEmplAdd;
     private javax.swing.JTextField txtFieldCronogramaIdCrea;
     private javax.swing.JTextField txtFieldCronogramaIdUpdate;
     private javax.swing.JTextField txtFieldFFCrea;
