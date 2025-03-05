@@ -55,18 +55,18 @@ public class Panel_ConsultarRequerimientos extends javax.swing.JPanel {
 
         tablaReq.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Id", "Nombre", "Descripcion", "IdOrden"
+                "Id", "Nombre"
             }
         ));
         jScrollPane1.setViewportView(tablaReq);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 70, -1, 330));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 70, -1, 330));
 
         jButton1.setText("Consultar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -163,7 +163,7 @@ public class Panel_ConsultarRequerimientos extends javax.swing.JPanel {
         List<Requerimiento> lista = dao.listarRequerimientos();
 
         // Definir las columnas de la tabla
-        String[] columnas = {"Id", "Nombre", "Descripción", "IdOrden"};
+        String[] columnas = {"Id", "Nombre"};
         DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
 
         // Convertir objetos Requerimiento en filas para la tabla

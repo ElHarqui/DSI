@@ -94,7 +94,7 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
         txtFieldCronogramaIdCrea = new javax.swing.JTextField();
         JComboBox<String> comboNomClientCrea;
         JComboBox<String> comboNomProdcCrea;
-        panelModificarOrdenes = new PanelModificarOrdenes(orden);
+        panelModificarOrdenes = new PanelEditar();
         int panelWidth = 840;
         int panelHeight = 560;
         int compWidth = 200;
@@ -654,6 +654,6 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
     private javax.swing.JTextField txtFieldNomClientCrea;
     private javax.swing.JTextField txtFieldNomProdcCrea;
     private javax.swing.JTextField txtFieldNumOrdenCrea;
-    private PanelModificarOrdenes panelModificarOrdenes;
+    private PanelEditar panelModificarOrdenes;
     // End of variables declaration//GEN-END:variables
 }
