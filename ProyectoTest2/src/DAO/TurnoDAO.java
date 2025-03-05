@@ -23,7 +23,7 @@ public class TurnoDAO implements ITurno {
             this.conn= ConexionBD.obtenerConexion();
         }
         List<Turno> listaTurnos = new ArrayList<>();
-        String consulta = "SELECT idTurno, nombre FROM Turno";
+        String consulta = "SELECT idTurno, nombre FROM turno";
 
         try (Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(consulta)) {

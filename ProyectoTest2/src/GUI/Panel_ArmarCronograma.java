@@ -140,8 +140,8 @@ public class Panel_ArmarCronograma extends javax.swing.JPanel {
      public void cargarDatosEnJTable() {
         Connection conn = ConexionBD.obtenerConexion();
         String consultaSQL = "SELECT o.idOrden AS 'N° Orden', " +
-                             "c.nombre AS 'Cliente', " +
-                             "p.nombre AS 'Producto', " +
+                             "c.nombre AS 'cliente', " +
+                             "p.nombre AS 'producto', " +
                              "o.fechaInicio AS 'Fecha inicio', " +
                              "o.fechaAcabado AS 'Fecha Final' " +
                              "FROM orden o " +

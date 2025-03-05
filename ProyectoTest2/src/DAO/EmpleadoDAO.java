@@ -21,7 +21,7 @@ public class EmpleadoDAO implements IEmpleado {
         if(conn==null){
             this.conn=ConexionBD.obtenerConexion();
         }
-        String query = "SELECT nombre, apellido FROM Empleado WHERE idEmpleado = ?";
+        String query = "SELECT nombre, apellido FROM empleado WHERE idEmpleado = ?";
         Empleado emp = null;
         try {
             PreparedStatement ps = conn.prepareStatement(query);
