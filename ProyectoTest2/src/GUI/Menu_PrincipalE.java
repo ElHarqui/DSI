@@ -240,7 +240,7 @@ public class Menu_PrincipalE extends javax.swing.JFrame {
     }//GEN-LAST:event_panelContainerSalirMouseExited
 
     private void panelContainerCronoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelContainerCronoMouseClicked
-        Panel_ArmarCronograma pCronograma = new Panel_ArmarCronograma();
+        Panel_CronogramaEmpleado pCronograma = new Panel_CronogramaEmpleado();
         CambiarPanel(pCronograma);
     }//GEN-LAST:event_panelContainerCronoMouseClicked
 
