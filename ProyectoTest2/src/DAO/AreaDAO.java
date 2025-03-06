@@ -24,7 +24,7 @@ public class AreaDAO implements IArea{
             this.conn= ConexionBD.obtenerConexion();
         }
         List<Area> areas = new ArrayList<>();
-        String consulta = "SELECT idArea, nombre FROM Area";
+        String consulta = "SELECT idArea, nombre FROM area";
 
         try (Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(consulta)) {

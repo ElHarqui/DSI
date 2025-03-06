@@ -25,7 +25,7 @@ public class MaquinaDAO implements IMaquina{
             this.conn= ConexionBD.obtenerConexion();
         }
         List<Maquina> maquinas = new ArrayList<>();
-        String consulta = "SELECT idMaquina, modelo,idArea FROM Maquina ";
+        String consulta = "SELECT idMaquina, modelo,idArea FROM maquina ";
 
         try (Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(consulta)) {

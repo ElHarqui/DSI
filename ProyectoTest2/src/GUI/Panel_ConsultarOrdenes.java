@@ -21,6 +21,7 @@ import DAO.ClienteDAO;
 import DAO.OrdenDAO;
 import DAO.ProductoDAO;
 import DAO.RequerimientoDAO;
+import Logica.QuickSortJTable;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
@@ -38,7 +39,7 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
     private JDateChooser dateChooserFFCrea;
     private Orden orden = new Orden();
     private Requerimiento requerimiento = new Requerimiento();
-
+    QuickSortJTable quickSortJTable = new QuickSortJTable();
     /**
      * Creates new form Panel_ConsultarOrdenes
      */
@@ -266,11 +267,14 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
         botonOrdenar.setBorder(null);
         botonOrdenar.setBorderPainted(false);
         botonOrdenar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jButton2MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jButton2MouseExited(evt);
+//            public void mouseEntered(java.awt.event.MouseEvent evt) {
+//                jButton2MouseEntered(evt);
+//            }
+//            public void mouseExited(java.awt.event.MouseEvent evt) {
+//                jButton2MouseExited(evt);
+//            }
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BotonOrdenarActionClicked(evt);
             }
         });
         panelSupCentConslOrdenes.add(botonOrdenar, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 20, 70, 70));
@@ -615,6 +619,32 @@ public class Panel_ConsultarOrdenes extends javax.swing.JPanel {
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt){
 
+    }
+    public void sortJTable(JTable table, int columnIndex) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        int rowCount = model.getRowCount();
+        int colCount = model.getColumnCount();
+
+        String[][] data = new String[rowCount][colCount];
+        for (int i = 0; i < rowCount; i++) {
+            for (int j = 0; j < colCount; j++) {
+                data[i][j] = model.getValueAt(i, j).toString();
+            }
+        }
+
+        QuickSortJTable.quickSort(data, 0, rowCount - 1, columnIndex);
+
+        for (int i = 0; i < rowCount; i++) {
+            for (int j = 0; j < colCount; j++) {
+                model.setValueAt(data[i][j], i, j);
+            }
+        }
+    }
+
+
+
+    private void BotonOrdenarActionClicked(java.awt.event.MouseEvent evt) {
+        sortJTable(jTable1,1);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

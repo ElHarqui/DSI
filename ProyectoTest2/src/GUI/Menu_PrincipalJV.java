@@ -266,7 +266,14 @@ public class Menu_PrincipalJV extends javax.swing.JFrame {
         panelContainerSalir.setBackground(new Color(153,255,255));
     }//GEN-LAST:event_panelContainerSalirMouseExited
 
-    private void panelContainerReqMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelContainerReqMouseClicked
+    private void panelContainerReqMouseClicked(java.awt.event.MouseEvent evt) {
+        Panel_ConsultarRequerimientos pReq = new Panel_ConsultarRequerimientos();
+        pReq.setSize(830, 550);//Tamaño del panel
+        pReq.setLocation(5, 5);//Posición dentro del panel principal
+        PANEL_INTRO.removeAll();
+        PANEL_INTRO.add(pReq);
+        PANEL_INTRO.revalidate();
+        PANEL_INTRO.repaint();//GEN-FIRST:event_panelContainerReqMouseClicked
 
     }//GEN-LAST:event_panelContainerReqMouseClicked
 
